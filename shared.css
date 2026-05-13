@@ -302,6 +302,17 @@ footer::before{content:"";position:absolute;top:-1px;left:10%;right:10%;height:1
 }
 
 /* Mobile: sin cursor custom, sin spot */
+
+/* ═══ MOBILE BACKGROUND FIX ═══ */
+@media(max-width:680px){
+  /* Reducir blur de orbs para que se vean en Android */
+  .ambient .orb{filter:blur(60px)!important;opacity:.45!important}
+  /* Asegurar que el body tenga fondo visible */
+  body{background:#0a0a0b!important}
+}
+/* Fondo garantizado siempre */
+html{background:#0a0a0b}
+
 @media(pointer:coarse){
   *{cursor:auto!important}
   .spot{display:none!important}
