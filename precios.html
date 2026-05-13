@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Precios — Bether Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ═══ DESDE STRIP ═══ */
+.desde-strip{display:inline-flex;align-items:baseline;justify-content:center;gap:14px;margin:8px 0 12px;padding:14px 28px;border:1px solid var(--border-2);border-radius:99px;background:var(--surface)}
+.desde-label{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-3)}
+.desde-price{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--gold);letter-spacing:-.025em;line-height:1}
+
+/* ═══ PRICING GRID ═══ */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1080px;margin:0 auto;padding:0 24px 60px;align-items:stretch}
+.pc-card{border-radius:var(--r-xl);padding:40px 32px 36px;position:relative;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:transform .35s var(--ease),box-shadow .35s,border-color .25s,background .25s;display:flex;flex-direction:column}
+.pc-card:hover{transform:translateY(-6px);border-color:var(--border-2);background:var(--surface-2)}
+
+/* Premium highlighted — Apple style */
+.pc-card.premium{
+  background:linear-gradient(165deg,rgba(212,165,116,.10),rgba(255,93,122,.04));
+  border-color:rgba(212,165,116,.30);
+  box-shadow:0 0 60px rgba(212,165,116,.10),0 24px 60px rgba(0,0,0,.4);
+}
+.pc-card.premium:hover{border-color:rgba(212,165,116,.50);box-shadow:0 0 80px rgba(212,165,116,.15),0 24px 60px rgba(0,0,0,.5)}
+
+.pc-hot-badge{
+  position:absolute;top:18px;right:18px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  color:#1a0f00;font-size:10px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;
+  padding:5px 14px;border-radius:99px;white-space:nowrap
+}
+
+.pc-plan-icon{display:inline-flex;width:38px;height:38px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-2);align-items:center;justify-content:center;color:var(--gold);margin-bottom:18px}
+.pc-plan-icon svg{width:18px;height:18px;stroke-width:1.6}
+.premium .pc-plan-icon{background:var(--tint-gold);color:var(--gold);border-color:rgba(212,165,116,.3)}
+
+.pc-plan-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;letter-spacing:-.025em;line-height:1;margin-bottom:6px;color:var(--text)}
+.premium .pc-plan-name{color:var(--gold-3)}
+.pc-plan-tag{font-size:13px;color:var(--text-3);margin-bottom:24px;font-weight:500;letter-spacing:-.005em}
+
+.pc-sep{height:1px;background:var(--border);margin-bottom:24px}
+.premium .pc-sep{background:rgba(212,165,116,.2)}
+
+.pc-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;flex:1}
+.pc-list li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text-2);line-height:1.55;font-weight:400}
+.pc-list li svg{width:14px;height:14px;flex-shrink:0;margin-top:3px;color:var(--gold)}
+.pc-list li.pc-vigencia{color:var(--text-3);font-style:italic;border-top:1px solid var(--border);padding-top:14px;margin-top:6px;font-size:12.5px}
+.pc-list li.pc-vigencia svg{color:var(--text-3)}
+
+.btn-plan{display:block;width:100%;padding:14px;border-radius:99px;font-size:13px;font-weight:600;letter-spacing:-.005em;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;transition:all .25s var(--ease);border:none}
+.btn-plan.basico-btn{border:1px solid var(--border-2);color:var(--text);background:var(--surface-2)}
+.btn-plan.basico-btn:hover{background:var(--surface);border-color:var(--border-3);transform:translateY(-2px)}
+.btn-plan.premium-btn{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a0f00}
+.btn-plan.premium-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,165,116,.3)}
+.btn-plan.elite-btn{background:var(--text);color:var(--bg)}
+.btn-plan.elite-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,255,255,.16)}
+
+/* ═══ A MEDIDA ═══ */
+.amedida{max-width:1080px;margin:0 auto 80px;padding:0 24px}
+.amedida-card{border-radius:var(--r-xl);background:linear-gradient(160deg,rgba(255,93,122,.08),rgba(255,93,122,.02));border:1px solid rgba(255,93,122,.2);padding:48px;transition:transform .35s var(--ease),border-color .25s}
+.amedida-card:hover{border-color:rgba(255,93,122,.4);transform:translateY(-4px)}
+.amedida-inner{display:flex;align-items:center;gap:56px;flex-wrap:wrap}
+.amedida-left{flex:1;min-width:280px}
+.amedida-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:var(--coral);margin-bottom:10px;letter-spacing:-.02em}
+.amedida-desc{font-size:14.5px;color:var(--text-2);line-height:1.7;font-weight:400}
+.amedida-desc strong{color:var(--text);font-weight:600}
+.amedida-right{flex:1;min-width:280px;display:flex;flex-direction:column;gap:18px}
+.amedida-chips{display:flex;flex-wrap:wrap;gap:8px}
+.amedida-chip{font-size:12px;font-weight:500;padding:7px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--border-2);color:var(--text-2)}
+.btn-amedida{align-self:flex-start;background:var(--coral);color:#fff;padding:14px 32px;border-radius:99px;font-size:13px;font-weight:600;text-decoration:none;transition:all .25s var(--ease);border:none;cursor:pointer}
+.btn-amedida:hover{transform:translateY(-2px);background:var(--coral-2);box-shadow:0 12px 32px rgba(255,93,122,.3)}
+
+/* ═══ COMPARISON TABLE ═══ */
+.table-wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+.cmp{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.cmp th{padding:18px 22px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border);background:var(--surface-2)}
+.cmp th:first-child{width:48%}
+.cmp th:not(:first-child){text-align:center}
+.th-premium{color:var(--gold) !important}
+.th-elite{color:var(--text) !important}
+.cmp td{padding:14px 22px;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--text-2);font-weight:400}
+.cmp td:not(:first-child){text-align:center}
+.cmp tr:last-child td{border-bottom:none}
+.cmp tr:hover td{background:rgba(255,255,255,.015)}
+.cy{color:var(--gold);font-weight:600}
+.cn{color:var(--text-4)}
+.c-info{font-weight:500;color:var(--text)}
+.c-prem{color:var(--gold) !important}
+.c-elit{color:var(--text) !important}
+
+@media(max-width:960px){
+  .pricing-grid{grid-template-columns:1fr;max-width:460px}
+  .amedida-inner{flex-direction:column;align-items:flex-start;gap:28px}
+  .amedida-card{padding:36px 28px}
+  .cmp{font-size:12px}
+  .cmp th,.cmp td{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <svg class="logo-svg-el" viewBox="0 0 36 36" fill="none">
+      <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#lg1)" stroke-width="1" fill="none" stroke-linejoin="round"/>
+      <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#lg1)">BH</text>
+      <defs><linearGradient id="lg1" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+    </svg>
+    <div class="logo-wm"><span class="logo-name">Bether</span><span class="logo-sub">Studio</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="precios.html" class="active">Precios</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul>
+  <a href="contacto.html" class="nav-cta">Comenzar</a>
+  <button class="mt" id="mt" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mmenu" id="mm">
+  <button class="mclose" id="mc" aria-label="Cerrar">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="precios.html">Precios</a>
+  <a href="contacto.html">Contacto</a>
+</div>
+<div class="sb" id="sb"></div>
+
+<!-- PAGE HEADER -->
+<div class="ph">
+  <div class="sec-tag reveal" style="justify-content:center">Precios</div>
+  <h1 class="reveal">Elegí tu<br><em>experiencia</em></h1>
+  <div class="reveal" style="display:flex;justify-content:center">
+    <div class="desde-strip">
+      <span class="desde-label">Desde</span>
+      <span class="desde-price">$15.000</span>
+    </div>
+  </div>
+  <p class="reveal">Cada plan incluye todo lo que necesitás para sorprender. Sin letra chica.</p>
+</div>
+
+<!-- PRICING GRID -->
+<div class="pricing-grid">
+
+  <!-- BÁSICO -->
+  <div class="pc-card basico reveal">
+    <div class="pc-plan-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <div class="pc-plan-name">Básico</div>
+    <div class="pc-plan-tag">Lo esencial bien hecho</div>
+    <div class="pc-sep"></div>
+    <ul class="pc-list">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Diseño con temática personalizada</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Countdown en tiempo real</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Confirmación de asistencia con GIF</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mapas integrados (Google, Waze, Apple)</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Agregar al calendario</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Música de fondo temática</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mini-juego o trivia interactiva</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>CBU / alias para regalos</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Link para compartir por WhatsApp</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 revisión incluida</li>
+      <li class="pc-vigencia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Link activo por 3 meses</li>
+    </ul>
+    <a href="contacto.html" class="btn-plan basico-btn">Consultar precio</a>
+  </div>
+
+  <!-- PREMIUM -->
+  <div class="pc-card premium reveal d1">
+    <span class="pc-hot-badge">★ Más elegido</span>
+    <div class="pc-plan-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/></svg>
+    </div>
+    <div class="pc-plan-name">Premium</div>
+    <div class="pc-plan-tag">El sweet spot — la mayoría elige este</div>
+    <div class="pc-sep"></div>
+    <ul class="pc-list">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong style="color:var(--text);font-weight:600">Todo lo del plan Básico</strong></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Efectos visuales avanzados</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Fotos y video del festejado</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Música personalizada con IA</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Sugerencias para la playlist</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Video personalizado dentro de la invitación</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel de control en tiempo real</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 revisiones incluidas</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte WhatsApp prioritario</li>
+      <li class="pc-vigencia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Link activo por 6 meses</li>
+    </ul>
+    <a href="contacto.html" class="btn-plan premium-btn">Consultar precio</a>
+  </div>
+
+  <!-- ELITE -->
+  <div class="pc-card elite reveal d2">
+    <div class="pc-plan-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
+    </div>
+    <div class="pc-plan-name">Elite</div>
+    <div class="pc-plan-tag">Para eventos que tienen que quedar marcados</div>
+    <div class="pc-sep"></div>
+    <ul class="pc-list">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong style="color:var(--text);font-weight:600">Todo lo del plan Premium</strong></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Link personalizado para cada invitado</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Armado de mesa inteligente</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Listado de invitados para el salón</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Panel de control completo</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Galería de fotos y videos</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Trivia del evento</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hasta 6 revisiones</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte post-evento 30 días</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Entrega garantizada en 24 hs</li>
+      <li class="pc-vigencia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Link activo por 12 meses</li>
+    </ul>
+    <a href="contacto.html" class="btn-plan elite-btn">Consultar precio</a>
+  </div>
+
+</div>
+
+<!-- A MEDIDA -->
+<div class="amedida">
+  <div class="amedida-card reveal">
+    <div class="amedida-inner">
+      <div class="amedida-left">
+        <div class="amedida-name">¿Algo diferente?</div>
+        <p class="amedida-desc">Tenés una idea que no entra en ningún plan, un evento especial, o querés algo único. <strong>Contanos tu idea y lo cotizamos en menos de 24 hs.</strong> Sin compromiso.</p>
+      </div>
+      <div class="amedida-right">
+        <div class="amedida-chips">
+          <span class="amedida-chip">Temática exclusiva</span>
+          <span class="amedida-chip">Video personalizado</span>
+          <span class="amedida-chip">Armado de mesa</span>
+          <span class="amedida-chip">Links personalizados</span>
+          <span class="amedida-chip">Música a medida</span>
+          <span class="amedida-chip">Panel completo</span>
+        </div>
+        <a href="contacto.html" class="btn-amedida">Contanos tu idea →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="table-wrap reveal">
+  <div class="sec-header" style="margin-bottom:36px">
+    <div class="sec-tag" style="justify-content:center">Comparación</div>
+    <h2 class="sec-title">¿Qué incluye <em>cada plan?</em></h2>
+  </div>
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th>Característica</th>
+        <th>Básico</th>
+        <th class="th-premium">Premium ★</th>
+        <th class="th-elite">Elite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Diseño con temática personalizada</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Countdown en tiempo real</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Confirmación de asistencia con GIF</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Mapas integrados</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Agregar al calendario</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Música de fondo temática</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Mini-juego o trivia interactiva</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>CBU / alias para regalos</td><td class="cy">✓</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Video personalizado con IA</td><td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Música personalizada con IA</td><td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Sugerencias para la playlist</td><td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Panel de control de confirmados</td><td class="cn">—</td><td class="cy">✓</td><td class="cy">✓</td></tr>
+      <tr><td>Link personalizado por invitado</td><td class="cn">—</td><td class="cn">—</td><td class="cy">✓</td></tr>
+      <tr><td>Armado de mesa inteligente</td><td class="cn">—</td><td class="cn">—</td><td class="cy">✓</td></tr>
+      <tr><td>Lista para presentar al salón</td><td class="cn">—</td><td class="cn">—</td><td class="cy">✓</td></tr>
+      <tr><td>Revisiones incluidas</td><td class="c-info">1</td><td class="c-info c-prem">3</td><td class="c-info c-elit">Hasta 6</td></tr>
+      <tr><td>Vigencia del link</td><td class="c-info">3 meses</td><td class="c-info c-prem">6 meses</td><td class="c-info c-elit">12 meses</td></tr>
+      <tr><td>Soporte WhatsApp</td><td>Normal</td><td class="c-info c-prem">Prioritario</td><td class="c-info c-elit">+ 30 días post</td></tr>
+      <tr><td>Precio</td><td class="c-info">Desde $15.000</td><td class="c-info c-prem">Consultar</td><td class="c-info c-elit">Consultar</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FAQ -->
+<section class="section" style="padding-top:20px">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag reveal" style="justify-content:center">Preguntas frecuentes</div>
+      <h2 class="sec-title reveal">¿Tenés <em>alguna duda?</em></h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-list">
+        <div class="faq-item reveal"><button class="faq-q">¿Los precios son en pesos o dólares? <span class="faq-arr">+</span></button><div class="faq-a"><p>Los precios son en pesos argentinos. Para clientes del exterior cotizamos en USD. Lo hablamos por WhatsApp según la complejidad del trabajo.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">¿Puedo pagar en cuotas? <span class="faq-arr">+</span></button><div class="faq-a"><p>Sí. Aceptamos Mercado Pago con cuotas, transferencia o efectivo. Lo que te sea más cómodo.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">¿Qué pasa si quiero algo que no está en los planes? <span class="faq-arr">+</span></button><div class="faq-a"><p>Escribinos. Cada invitación es artesanal y podemos armar un plan personalizado. No hay límites.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">¿Cuándo arrancamos? <span class="faq-arr">+</span></button><div class="faq-a"><p>Una vez acordados los detalles y recibido el pago, arrancamos el mismo día. Te pedimos la info y manos a la obra.</p></div></div>
+        <div class="faq-item reveal"><button class="faq-q">¿Qué cuenta como una revisión? <span class="faq-arr">+</span></button><div class="faq-a"><p>Una revisión es una ronda de cambios: textos, colores, elementos visuales. Podés agrupar todos los cambios que quieras en cada revisión.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-inner reveal">
+    <h2>¿Listo para crear algo<br>que <em>nadie va a olvidar?</em></h2>
+    <p>Contanos la idea. En menos de 24 hs tenés una propuesta.</p>
+    <div class="cta-btns">
+      <a href="contacto.html" class="btn btn-primary">Empezar ahora</a>
+      <a href="portfolio.html" class="btn btn-ghost">Ver portfolio</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-brand-logo">
+          <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+            <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#fg2)" stroke-width="1" fill="none"/>
+            <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#fg2)">BH</text>
+            <defs><linearGradient id="fg2" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+          </svg>
+          <span class="foot-brand-name">Bether Studio</span>
+        </div>
+        <p class="foot-desc">Invitaciones digitales interactivas que convierten un link en algo que nadie olvida. Buenos Aires, Argentina.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Páginas</h4>
+          <a href="index.html">Inicio</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="precios.html">Precios</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+        <div class="foot-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/5491137028226" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="mailto:hola@betherstudio.com.ar">Email</a>
+          <a href="https://instagram.com/betherstudio" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="foot-copy">© 2026 Bether Studio — Buenos Aires, Argentina</span>
+      
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="bt" aria-label="Volver arriba">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="shared.js"></script>
+</body>
+</html>

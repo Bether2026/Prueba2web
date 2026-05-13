@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Portfolio — Bether Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ═══ FILTER BAR ═══ */
+.filter-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 24px 56px;max-width:var(--max-w);margin:0 auto}
+.fb{background:var(--surface);border:1px solid var(--border-2);color:var(--text-2);padding:10px 22px;border-radius:99px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;letter-spacing:-.005em;transition:all .25s var(--ease);display:inline-flex;align-items:center;gap:8px}
+.fb:hover{background:var(--surface-2);border-color:var(--border-3);color:var(--text);transform:translateY(-1px)}
+.fb.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.fb-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.6}
+
+/* ═══ PHONE MOCKUP ═══ */
+.phone-section{display:flex;flex-direction:column;align-items:center;gap:48px;padding:0 24px 80px;max-width:860px;margin:0 auto}
+.phone-header{text-align:center;max-width:560px}
+.pl-sub{font-size:14px;color:var(--text-3);line-height:1.7;margin-top:8px}
+
+.phone-wrap{position:relative;flex-shrink:0}
+.phone-side-btn{position:absolute;background:rgba(255,255,255,.12);border-radius:3px}
+.phone-vol-up{width:3px;height:34px;left:-4px;top:120px}
+.phone-vol-down{width:3px;height:34px;left:-4px;top:166px}
+.phone-power{width:3px;height:52px;right:-4px;top:140px}
+
+.phone-frame{
+  width:300px;
+  background:linear-gradient(165deg,#1d1d20,#0f0f12);
+  border-radius:54px;padding:14px;
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255,255,255,.10),
+    0 0 0 3px #050507,
+    0 50px 100px rgba(0,0,0,.7),
+    0 0 80px rgba(212,165,116,.08);
+  position:relative;
+  transition:transform .35s var(--ease);
+}
+.phone-frame:hover{transform:translateY(-6px) scale(1.01)}
+.phone-notch{width:118px;height:32px;background:#000;border-radius:0 0 22px 22px;margin:0 auto 6px;position:relative}
+.phone-notch::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:5px;background:#0a0a0c;border-radius:99px}
+.phone-notch::after{content:"";position:absolute;right:24px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:#0a0a0c;border:1.2px solid rgba(255,255,255,.08)}
+.phone-screen{background:#06060a;border-radius:34px;overflow:hidden;aspect-ratio:9/19.5;position:relative}
+.phone-home-bar{width:100px;height:4px;background:rgba(255,255,255,.18);border-radius:99px;margin:8px auto 0}
+
+.phone-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:2;background:radial-gradient(ellipse at center,#1a1a22,#0a0a0c);transition:opacity .45s var(--ease)}
+.phone-placeholder.hidden{opacity:0;pointer-events:none}
+.pp-glyph{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--gold),var(--gold-2));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#1a0f00;box-shadow:0 12px 30px rgba(212,165,116,.3)}
+.pp-text{font-size:13px;color:var(--text-2);text-align:center;line-height:1.6;font-weight:500;padding:0 20px;letter-spacing:-.005em}
+.pp-arrows{font-size:20px;color:var(--gold);opacity:.4;animation:ppPulse 2s ease-in-out infinite}
+@keyframes ppPulse{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.85;transform:translateY(-4px)}}
+
+.phone-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;z-index:1}
+.phone-video.active{display:block}
+
+.phone-overlay{position:absolute;inset:0;z-index:3;pointer-events:none;display:none;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 22%,transparent 78%,rgba(0,0,0,.5) 100%)}
+.phone-overlay.active{display:block;pointer-events:all}
+.phone-cat-badge{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:rgba(10,10,15,.65);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);padding:6px 16px;border-radius:99px;font-size:11.5px;font-weight:600;color:#fff;letter-spacing:-.005em;white-space:nowrap}
+.phone-sound-btn{position:absolute;bottom:18px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(10,10,15,.6);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .2s,transform .2s}
+.phone-sound-btn:hover{background:rgba(20,20,25,.85);transform:scale(1.08)}
+.phone-sound-btn svg{width:16px;height:16px;stroke-width:1.8}
+
+/* ═══ PORTFOLIO GRID ═══ */
+.port-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;max-width:var(--max-w);margin:0 auto;padding:0 24px 80px}
+.pc{border-radius:var(--r-lg);overflow:hidden;background:var(--surface);border:1px solid var(--border);transition:transform .4s var(--ease),border-color .25s,box-shadow .4s;cursor:pointer;display:flex;flex-direction:column}
+.pc:hover{border-color:var(--border-2);box-shadow:var(--shadow-3);transform:translateY(-6px)}
+.pc-wide{grid-column:span 8}
+.pc-tall{grid-column:span 4}
+.pc-third{grid-column:span 4}
+.pc-visual{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1}
+.pc-wide .pc-visual,.pc-tall .pc-visual{height:300px}
+.pc-third .pc-visual{height:240px}
+.pc-glyph{font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:500;letter-spacing:-.02em;transition:transform .55s var(--ease);position:relative;z-index:1;color:rgba(255,255,255,.95);text-shadow:0 4px 28px rgba(0,0,0,.4)}
+.pc:hover .pc-glyph{transform:scale(1.08) translateY(-4px)}
+.pc-badge{position:absolute;top:16px;left:16px;background:rgba(10,10,15,.72);border:1px solid rgba(255,255,255,.14);padding:5px 12px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#fff;text-transform:uppercase;backdrop-filter:blur(12px);z-index:2}
+.pc-info{padding:24px 26px;border-top:1px solid var(--border)}
+.pc-tag{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px;display:block;color:var(--gold)}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;margin-bottom:8px;color:var(--text);letter-spacing:-.015em;line-height:1.15}
+.pc-desc{font-size:12.5px;color:var(--text-3);line-height:1.65;font-weight:400}
+.pc-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.pill{font-size:10px;font-weight:500;padding:4px 10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);letter-spacing:.2px}
+.pc-cta{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-2);transition:gap .25s,color .25s}
+.pc:hover .pc-cta{gap:10px;color:var(--gold)}
+
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(5,5,7,.82);backdrop-filter:blur(24px);z-index:8000;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-ov.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border-2);border-radius:var(--r-xl);max-width:880px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:mIn .45s var(--ease)}
+@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border-2);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2;backdrop-filter:blur(10px)}
+.modal-close:hover{background:rgba(255,255,255,.12);border-color:var(--border-3);transform:scale(1.08)}
+.modal-vis{height:280px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-xl) var(--r-xl) 0 0;position:relative;overflow:hidden}
+.modal-vis-glyph{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:500;color:#fff;letter-spacing:-.02em;text-shadow:0 6px 40px rgba(0,0,0,.4);z-index:2;position:relative}
+.modal-body{padding:36px 40px 40px}
+.modal-tag{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;letter-spacing:-.02em;margin-bottom:14px;line-height:1.1}
+.modal-desc{font-size:14.5px;color:var(--text-2);line-height:1.7;margin-bottom:28px;font-weight:400}
+.modal-feats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:30px}
+.mf{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-2);padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-weight:500}
+.mf-i{width:24px;height:24px;border-radius:8px;background:var(--tint-gold);color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mf-i svg{width:14px;height:14px}
+.modal-acts{display:flex;gap:12px;flex-wrap:wrap}
+
+@media(max-width:960px){
+  .pc-wide,.pc-tall{grid-column:span 6}
+  .pc-third{grid-column:span 6}
+  .modal-feats{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .pc-wide,.pc-tall,.pc-third{grid-column:span 12}
+  .phone-frame{width:280px}
+  .modal-body{padding:24px 22px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <svg class="logo-svg-el" viewBox="0 0 36 36" fill="none">
+      <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#lg1)" stroke-width="1" fill="none" stroke-linejoin="round"/>
+      <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#lg1)">BH</text>
+      <defs><linearGradient id="lg1" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+    </svg>
+    <div class="logo-wm"><span class="logo-name">Bether</span><span class="logo-sub">Studio</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="precios.html">Precios</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul>
+  <a href="contacto.html" class="nav-cta">Comenzar</a>
+  <button class="mt" id="mt" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mmenu" id="mm">
+  <button class="mclose" id="mc" aria-label="Cerrar">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="precios.html">Precios</a>
+  <a href="contacto.html">Contacto</a>
+</div>
+<div class="sb" id="sb"></div>
+
+<!-- PAGE HEADER -->
+<div class="ph">
+  <div class="sec-tag reveal" style="justify-content:center">Portfolio</div>
+  <h1 class="reveal">Experiencias<br>que ya <em>creamos</em></h1>
+  <p class="reveal">Cada invitación es artesanal y única. Tocá una categoría para verla en acción.</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="fb active" data-f="infantil"><span class="fb-dot"></span>Infantil</button>
+  <button class="fb" data-f="casamiento"><span class="fb-dot"></span>Casamiento</button>
+  <button class="fb" data-f="quinceanera"><span class="fb-dot"></span>Quinceañera</button>
+  <button class="fb" data-f="medida"><span class="fb-dot"></span>A medida</button>
+</div>
+
+<!-- PHONE MOCKUP -->
+<div class="phone-section">
+  <div class="phone-header">
+    <div class="sec-tag" style="justify-content:center">Vista previa</div>
+    <h2 class="sec-title">Así se ve en <em>tu celular</em></h2>
+    <p class="pl-sub">Elegí una categoría arriba para ver la experiencia en acción.</p>
+  </div>
+  <div class="phone-wrap">
+    <div class="phone-side-btn phone-vol-up"></div>
+    <div class="phone-side-btn phone-vol-down"></div>
+    <div class="phone-side-btn phone-power"></div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-placeholder" id="phonePlaceholder">
+          <div class="pp-glyph">B</div>
+          <div class="pp-text">Tocá una categoría<br>para ver la experiencia</div>
+          <div class="pp-arrows">↑</div>
+        </div>
+        <video class="phone-video" id="vid-infantil" loop playsinline muted
+          src="https://r2.betherstudio.com/previews/infantil.mp4"
+          poster="https://r2.betherstudio.com/previews/infantil-poster.jpg"></video>
+        <video class="phone-video" id="vid-casamiento" loop playsinline muted
+          src="https://r2.betherstudio.com/previews/casamiento.mp4"
+          poster="https://r2.betherstudio.com/previews/casamiento-poster.jpg"></video>
+        <video class="phone-video" id="vid-quinceanera" loop playsinline muted
+          src="https://r2.betherstudio.com/previews/quinceanera.mp4"
+          poster="https://r2.betherstudio.com/previews/quinceanera-poster.jpg"></video>
+        <video class="phone-video" id="vid-medida" loop playsinline muted
+          src="https://r2.betherstudio.com/previews/medida.mp4"
+          poster="https://r2.betherstudio.com/previews/medida-poster.jpg"></video>
+        <div class="phone-overlay" id="phoneOverlay">
+          <div class="phone-cat-badge" id="phoneCatBadge"></div>
+          <div class="phone-sound-btn" id="phoneSoundBtn" aria-label="Sonido">
+            <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="phone-home-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO GRID -->
+<div class="port-grid">
+
+  <!-- Mario -->
+  <div class="pc pc-wide" data-cat="infantil" data-modal="mario">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#4a9a3a)">
+      <span class="pc-badge">Más completa</span>
+      <span class="pc-glyph">Mario</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Super Mario · Infantil</span>
+      <div class="pc-name">Nubes volumétricas &amp; mini-juego</div>
+      <p class="pc-desc">Countdown, mini-juego de monedas, confirmación con GIF, mapas integrados.</p>
+      <div class="pc-pills"><span class="pill">Mini-juego</span><span class="pill">Música</span><span class="pill">RSVP</span></div>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Frozen -->
+  <div class="pc pc-tall" data-cat="infantil" data-modal="frozen">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#07121e,#0f2238 40%,#1e3d6b 75%,#4a82c8)">
+      <span class="pc-badge">Mágica</span>
+      <span class="pc-glyph">Frozen</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Frozen · Infantil</span>
+      <div class="pc-name">Nieve &amp; cristales</div>
+      <p class="pc-desc">Copos SVG, cristales y atmósfera polar.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Spiderman -->
+  <div class="pc pc-third" data-cat="infantil" data-modal="spiderman">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#06000c,#100a2e 40%,#1a1245 70%,#5c0000)">
+      <span class="pc-badge">Acción</span>
+      <span class="pc-glyph">Spider</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Spiderman · Infantil</span>
+      <div class="pc-name">Ciudad nocturna</div>
+      <p class="pc-desc">Telarañas SVG, skyline y mini-juego.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Dino -->
+  <div class="pc pc-third" data-cat="infantil" data-modal="dino">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#061206,#0f3010 40%,#1e5a18 75%,#3a8020)">
+      <span class="pc-badge">Selva</span>
+      <span class="pc-glyph">Dinos</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Dinosaurios · Infantil</span>
+      <div class="pc-name">Jurásico tropical</div>
+      <p class="pc-desc">Dinosaurios animados y hojas con física.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Minecraft -->
+  <div class="pc pc-third" data-cat="infantil" data-modal="minecraft">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#060c06,#0f2010 40%,#1e3c1a 70%,#3a5c18)">
+      <span class="pc-badge">Pixel</span>
+      <span class="pc-glyph">Mine</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Minecraft · Infantil</span>
+      <div class="pc-name">Mundo pixelado</div>
+      <p class="pc-desc">Bloques que se construyen en tiempo real.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Encanto -->
+  <div class="pc pc-third" data-cat="infantil" data-modal="encanto">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#100602,#3a1400 40%,#6e2e0a 70%,#b05520)">
+      <span class="pc-badge">Mariposas</span>
+      <span class="pc-glyph">Encanto</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Encanto · Infantil</span>
+      <div class="pc-name">Casita Madrigal</div>
+      <p class="pc-desc">Flores que brotan al scroll y mariposas.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Wedding -->
+  <div class="pc pc-wide" data-cat="casamiento" data-modal="wed" style="display:none">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#0a0705,#14091e 45%,#1e1035 80%,#140820)">
+      <span class="pc-badge">Elegancia</span>
+      <span class="pc-glyph">Sí, acepto.</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Casamiento</span>
+      <div class="pc-name">Elegancia Dorada · Sobre animado</div>
+      <p class="pc-desc">Sobre que se abre, pétalos, música generativa, trivia y CBU/alias.</p>
+      <div class="pc-pills"><span class="pill">Sobre</span><span class="pill">Pétalos</span><span class="pill">CBU</span></div>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Quince -->
+  <div class="pc pc-tall" data-cat="quinceanera" data-modal="quince" style="display:none">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#0f0520,#2d0f4a 40%,#5a1f8a 70%,#8840c0)">
+      <span class="pc-badge">Destellos</span>
+      <span class="pc-glyph">Quince</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">Quinceañera</span>
+      <div class="pc-name">Rosa Violeta</div>
+      <p class="pc-desc">Pétalos de rosa, destellos, galería y RSVP.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+  <!-- Custom -->
+  <div class="pc pc-wide" data-cat="medida" data-modal="custom" style="display:none">
+    <div class="pc-visual" style="background:linear-gradient(160deg,#111113,#18182a 50%,#2a1f3a)">
+      <span class="pc-badge">A medida</span>
+      <span class="pc-glyph">Tu idea</span>
+    </div>
+    <div class="pc-info">
+      <span class="pc-tag">A medida</span>
+      <div class="pc-name">¿Tenés una idea?</div>
+      <p class="pc-desc">Cualquier temática. Construimos algo único para vos.</p>
+      <span class="pc-cta">Ver detalle →</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-inner reveal">
+    <h2>¿Listo para crear algo<br>que <em>nadie va a olvidar?</em></h2>
+    <p>Contanos la idea. En menos de 24 hs tenés una propuesta.</p>
+    <div class="cta-btns">
+      <a href="contacto.html" class="btn btn-primary">Empezar ahora</a>
+      <a href="precios.html" class="btn btn-ghost">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="mOv">
+  <div class="modal">
+    <button class="modal-close" id="mClose" aria-label="Cerrar">✕</button>
+    <div class="modal-vis" id="mVis"></div>
+    <div class="modal-body">
+      <span class="modal-tag" id="mTag"></span>
+      <h3 class="modal-title" id="mTitle"></h3>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-feats" id="mFeats"></div>
+      <div class="modal-acts">
+        <a href="contacto.html" class="btn btn-primary">Consultar esta experiencia</a>
+        <a href="https://wa.me/5491137028226" class="btn btn-ghost" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-brand-logo">
+          <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+            <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#fg2)" stroke-width="1" fill="none"/>
+            <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#fg2)">BH</text>
+            <defs><linearGradient id="fg2" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+          </svg>
+          <span class="foot-brand-name">Bether Studio</span>
+        </div>
+        <p class="foot-desc">Invitaciones digitales interactivas que convierten un link en algo que nadie olvida. Buenos Aires, Argentina.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Páginas</h4>
+          <a href="index.html">Inicio</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="precios.html">Precios</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+        <div class="foot-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/5491137028226" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="mailto:hola@betherstudio.com.ar">Email</a>
+          <a href="https://instagram.com/betherstudio" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="foot-copy">© 2026 Bether Studio — Buenos Aires, Argentina</span>
+      
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="bt" aria-label="Volver arriba">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="shared.js"></script>
+<script>
+/* ─── PHONE MOCKUP LOGIC ─── */
+const CAT_LABELS = {
+  infantil:   'Infantil',
+  casamiento: 'Casamiento',
+  quinceanera:'Quinceañera',
+  medida:     'A medida'
+};
+let currentVid=null,isMuted=true;
+
+function switchCategory(cat){
+  if(currentVid){ currentVid.pause(); currentVid.classList.remove('active'); }
+  document.getElementById('phonePlaceholder')?.classList.add('hidden');
+  document.getElementById('phoneOverlay')?.classList.add('active');
+  const badge=document.getElementById('phoneCatBadge');
+  if(badge) badge.textContent = CAT_LABELS[cat] || cat;
+  const vid=document.getElementById('vid-'+cat);
+  if(vid){
+    vid.classList.add('active');
+    vid.muted=true; isMuted=true;
+    updateSoundIcon();
+    vid.currentTime=0;
+    vid.play().catch(()=>{});
+    currentVid=vid;
+  }
+}
+function updateSoundIcon(){
+  const ic=document.getElementById('soundIcon');
+  if(!ic) return;
+  ic.innerHTML = isMuted
+    ? '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'
+    : '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>';
+}
+document.getElementById('phoneSoundBtn')?.addEventListener('click',()=>{
+  if(!currentVid) return;
+  isMuted=!isMuted; currentVid.muted=isMuted; updateSoundIcon();
+});
+
+/* ─── FILTERS ─── */
+document.querySelectorAll('.fb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=b.dataset.f;
+    document.querySelectorAll('.pc').forEach(c=>{
+      c.style.display = c.dataset.cat===f ? '' : 'none';
+    });
+    switchCategory(f);
+  });
+});
+
+// Initial state
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.pc').forEach(c=>{
+    c.style.display = c.dataset.cat==='infantil' ? '' : 'none';
+  });
+  setTimeout(()=>switchCategory('infantil'),300);
+});
+
+/* ─── PORTFOLIO MODAL ─── */
+const MD={
+  mario:{tag:'Super Mario Bros · Cumpleaños infantil',title:'Nubes volumétricas & mini-juego',desc:'La experiencia más completa del portfolio. Countdown, mini-juego de monedas, confirmación con GIF y mapas integrados.',bg:'linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#4a9a3a)',glyph:'Mario',feats:['Mini-juego interactivo','Música + efectos','Countdown en vivo','Mapas integrados','Confirmación RSVP','Agregar al calendario']},
+  wed:{tag:'Casamiento',title:'Elegancia Dorada · Sobre animado',desc:'Sobre que se abre al entrar, pétalos, música generativa, trivia de la pareja y sección de regalos con CBU/alias.',bg:'linear-gradient(160deg,#0a0705,#14091e 45%,#1e1035 80%,#140820)',glyph:'Sí, acepto.',feats:['Sobre animado','Pétalos Canvas','Música generativa','Trivia de la pareja','CBU/alias regalos','RSVP elegante']},
+  frozen:{tag:'Frozen · Infantil',title:'Nieve & cristales mágicos',desc:'Copos SVG animados, cristales brillantes y atmósfera polar.',bg:'linear-gradient(160deg,#07121e,#0f2238 40%,#1e3d6b 75%,#4a82c8)',glyph:'Frozen',feats:['Nieve SVG','Cristales','Música Frozen','Countdown','Confirmación','Mapas']},
+  spiderman:{tag:'Spiderman · Infantil',title:'Ciudad nocturna de Nueva York',desc:'Telarañas SVG en tiempo real, skyline y mini-juego de acción.',bg:'linear-gradient(160deg,#06000c,#100a2e 40%,#1a1245 70%,#5c0000)',glyph:'Spider',feats:['Telarañas SVG','Mini-juego','Skyline','Efectos','Confirmación','Countdown']},
+  dino:{tag:'Dinosaurios · Infantil',title:'Jurásico Tropical',desc:'Selva animada, dinosaurios que caminan y hojas con física real.',bg:'linear-gradient(160deg,#061206,#0f3010 40%,#1e5a18 75%,#3a8020)',glyph:'Dinos',feats:['Dinos animados','Hojas física','Rugidos','Countdown','Confirmación','Mapas']},
+  quince:{tag:'Quinceañera',title:'Rosa Violeta · Destellos de diamante',desc:'Pétalos de rosa, destellos, galería de fotos, música y RSVP con lista.',bg:'linear-gradient(160deg,#0f0520,#2d0f4a 40%,#5a1f8a 70%,#8840c0)',glyph:'Quince',feats:['Pétalos rosa','Destellos','Galería','Música','Lista invitados','Countdown']},
+  encanto:{tag:'Encanto · Infantil',title:'Casita Madrigal & mariposas',desc:'Flores que brotan al scroll y mariposas animadas.',bg:'linear-gradient(160deg,#100602,#3a1400 40%,#6e2e0a 70%,#b05520)',glyph:'Encanto',feats:['Flores al scroll','Mariposas','Magia','Música Encanto','Confirmación','Countdown']},
+  minecraft:{tag:'Minecraft · Infantil',title:'Mundo Pixelado',desc:'Bloques que se construyen en tiempo real y pixel art procedural.',bg:'linear-gradient(160deg,#060c06,#0f2010 40%,#1e3c1a 70%,#3a5c18)',glyph:'Mine',feats:['Bloques animados','Pixel art','Sonidos','Mini-juego','Confirmación','Countdown']},
+  custom:{tag:'A medida',title:'¿Tenés una idea?',desc:'Cualquier temática. Mandanos tu idea y construimos algo único.',bg:'linear-gradient(160deg,#111113,#18182a 50%,#2a1f3a)',glyph:'Tu idea',feats:['100% original','Tu paleta','Mini-juego temático','Música a elección','Todo incluido','Entrega rápida']}
+};
+const checkIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const mOv=document.getElementById('mOv');
+document.querySelectorAll('.pc').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const d=MD[card.dataset.modal]; if(!d) return;
+    const vis=document.getElementById('mVis');
+    vis.style.background=d.bg;
+    vis.innerHTML='<span class="modal-vis-glyph">'+d.glyph+'</span>';
+    document.getElementById('mTag').textContent=d.tag;
+    document.getElementById('mTitle').textContent=d.title;
+    document.getElementById('mDesc').textContent=d.desc;
+    document.getElementById('mFeats').innerHTML=d.feats.map(f=>'<div class="mf"><span class="mf-i">'+checkIcon+'</span>'+f+'</div>').join('');
+    mOv.classList.add('open');
+  });
+});
+document.getElementById('mClose').addEventListener('click',()=>mOv.classList.remove('open'));
+mOv.addEventListener('click',e=>{ if(e.target===mOv) mOv.classList.remove('open'); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') mOv.classList.remove('open'); });
+</script>
+</body>
+</html>

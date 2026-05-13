@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Experiencias Digitales — Bether Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ═══ HERO ═══ */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 24px 80px;position:relative;overflow:hidden}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;background:var(--surface);border:1px solid var(--border-2);padding:7px 14px 7px 12px;border-radius:99px;animation:fadeUp .7s var(--ease) both}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(74,222,128,.7);animation:livePulse 2s ease infinite;flex-shrink:0}
+@keyframes livePulse{0%,100%{box-shadow:0 0 6px rgba(74,222,128,.5)}50%{box-shadow:0 0 14px rgba(74,222,128,.9)}}
+.ey-txt{font-size:12px;font-weight:500;color:var(--text-2);letter-spacing:-.005em}
+
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,8vw,6.4rem);font-weight:400;line-height:.96;letter-spacing:-.025em;margin-bottom:28px;animation:fadeUp .8s .05s var(--ease) both;text-wrap:balance}
+.hero-title .l1,.hero-title .l2{display:block;white-space:nowrap}
+.hero-title .l1{color:var(--text);font-style:italic;font-weight:300}
+.hero-title .l2{font-weight:500}
+.hero-title .l2 em{font-style:italic;font-weight:300;background:linear-gradient(135deg,var(--gold-3) 0%,var(--gold) 25%,var(--coral) 55%,#a855f7 80%,var(--gold-2) 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:heroGrad 7s ease-in-out infinite;position:relative;display:inline-block}
+@keyframes heroGrad{0%,100%{background-position:0% center}50%{background-position:220% center}}
+/* soft glow halo behind "experiencias" */
+.hero-title .l2 em::after{content:"";position:absolute;inset:-12% -8%;background:radial-gradient(ellipse,rgba(212,165,116,.22),rgba(255,93,122,.10) 40%,transparent 70%);filter:blur(28px);z-index:-1;animation:haloPulse 5s ease-in-out infinite}
+@keyframes haloPulse{0%,100%{opacity:.55}50%{opacity:.95}}
+
+.hero-sub{font-size:1.15rem;font-weight:400;color:var(--text-2);max-width:560px;line-height:1.6;margin:0 auto 36px;animation:fadeUp .8s .12s var(--ease) both;text-wrap:pretty}
+.hero-sub strong{color:var(--text);font-weight:600}
+
+.concept-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;animation:fadeUp .8s .18s var(--ease) both;max-width:680px;margin-left:auto;margin-right:auto}
+.cp{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;font-size:12.5px;font-weight:500;border:1px solid var(--border-2);background:var(--surface);color:var(--text-2);transition:all .3s var(--ease);letter-spacing:-.005em;position:relative;overflow:hidden}
+.cp:hover{transform:translateY(-2px);border-color:var(--border-3);color:var(--text);background:var(--surface-2)}
+.cp::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px currentColor;transition:transform .3s var(--ease)}
+.cp:hover::before{transform:scale(1.4)}
+/* category color tints */
+.cp:nth-child(1):hover{border-color:rgba(212,165,116,.5);color:var(--gold-3);background:rgba(212,165,116,.08)}
+.cp:nth-child(1)::before{background:var(--gold)}
+.cp:nth-child(2):hover{border-color:rgba(255,93,122,.5);color:#ffb0bf;background:rgba(255,93,122,.08)}
+.cp:nth-child(2)::before{background:var(--coral)}
+.cp:nth-child(3):hover{border-color:rgba(255,228,73,.45);color:#ffe97a;background:rgba(255,228,73,.06)}
+.cp:nth-child(3)::before{background:#ffe449}
+.cp:nth-child(4):hover{border-color:rgba(168,85,247,.5);color:#c47fff;background:rgba(168,85,247,.08)}
+.cp:nth-child(4)::before{background:#a855f7}
+.cp:nth-child(5):hover{border-color:rgba(34,211,238,.5);color:#7de8f5;background:rgba(34,211,238,.08)}
+.cp:nth-child(5)::before{background:#22d3ee}
+
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .24s var(--ease) both}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin:80px auto 0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--surface);animation:fadeUp .8s .32s var(--ease) both;backdrop-filter:blur(10px);position:relative}
+.stat{padding:28px 22px;text-align:center;border-right:1px solid var(--border);transition:background .3s,transform .3s var(--ease);position:relative}
+.stat:hover{background:var(--surface-2);transform:translateY(-2px)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:500;display:block;margin-bottom:6px;letter-spacing:-.02em;line-height:1;background:linear-gradient(135deg,var(--gold),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat:nth-child(2) .stat-n{background:linear-gradient(135deg,var(--coral),#ffb0bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat:nth-child(3) .stat-n{background:linear-gradient(135deg,#22d3ee,#7de8f5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat:nth-child(4) .stat-n{background:linear-gradient(135deg,#a855f7,#c47fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-l{font-size:10.5px;color:var(--text-3);letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:64px;opacity:.5;animation:fadeUp .8s .42s var(--ease) both}
+.scroll-hint span{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);font-weight:600}
+.scroll-arrow{width:1px;height:36px;background:linear-gradient(180deg,var(--text-3),transparent);animation:scrollDrop 2.2s ease-in-out infinite}
+@keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ═══ PROCESS ═══ */
+.proc-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.proc-card{border-radius:var(--r-lg);padding:32px 26px;position:relative;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:transform .4s var(--ease),border-color .3s,background .3s,box-shadow .4s}
+.proc-card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;background:radial-gradient(ellipse at top,var(--tint),transparent 65%);transition:opacity .4s var(--ease);pointer-events:none}
+.proc-card:hover{transform:translateY(-6px);border-color:var(--tint-border);background:var(--surface-2);box-shadow:0 20px 50px rgba(0,0,0,.35),0 0 40px var(--tint-glow)}
+.proc-card:hover::before{opacity:1}
+.proc-card:nth-child(1){--tint:rgba(212,165,116,.10);--tint-border:rgba(212,165,116,.4);--tint-glow:rgba(212,165,116,.10)}
+.proc-card:nth-child(2){--tint:rgba(255,93,122,.10);--tint-border:rgba(255,93,122,.4);--tint-glow:rgba(255,93,122,.10)}
+.proc-card:nth-child(3){--tint:rgba(255,228,73,.08);--tint-border:rgba(255,228,73,.4);--tint-glow:rgba(255,228,73,.06)}
+.proc-card:nth-child(4){--tint:rgba(168,85,247,.10);--tint-border:rgba(168,85,247,.4);--tint-glow:rgba(168,85,247,.10)}
+.proc-card:nth-child(5){--tint:rgba(34,211,238,.10);--tint-border:rgba(34,211,238,.4);--tint-glow:rgba(34,211,238,.10)}
+.pc-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;line-height:1;margin-bottom:24px;display:block;background:linear-gradient(135deg,var(--gold),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.proc-card:nth-child(2) .pc-num{background:linear-gradient(135deg,var(--coral),#ffb0bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+.proc-card:nth-child(3) .pc-num{background:linear-gradient(135deg,#ffe449,#fff39c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.proc-card:nth-child(4) .pc-num{background:linear-gradient(135deg,#a855f7,#c47fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.proc-card:nth-child(5) .pc-num{background:linear-gradient(135deg,#22d3ee,#7de8f5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pc-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;letter-spacing:-.01em;text-wrap:balance;position:relative}
+.pc-desc{font-size:12.5px;color:var(--text-3);line-height:1.7;font-weight:400;text-wrap:pretty;position:relative}
+
+/* ═══ BENTO ═══ */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bento-card{border-radius:var(--r-lg);padding:32px 30px;border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden;transition:transform .4s var(--ease),border-color .3s,background .3s,box-shadow .4s}
+.bento-card::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;background:radial-gradient(ellipse at top right,var(--tint),transparent 65%);transition:opacity .4s var(--ease);pointer-events:none}
+.bento-card:hover{transform:translateY(-5px);border-color:var(--tint-border);background:var(--surface-2);box-shadow:0 20px 50px rgba(0,0,0,.4),0 0 40px var(--tint-glow)}
+.bento-card:hover::before{opacity:1}
+.bento-card>*{position:relative}
+.bento-card.wide{grid-column:span 2}
+/* per-card tints */
+.bento-card:nth-child(1){--tint:rgba(212,165,116,.10);--tint-border:rgba(212,165,116,.4);--tint-glow:rgba(212,165,116,.10)}
+.bento-card:nth-child(2){--tint:rgba(255,93,122,.10);--tint-border:rgba(255,93,122,.4);--tint-glow:rgba(255,93,122,.10)}
+.bento-card:nth-child(3){--tint:rgba(168,85,247,.10);--tint-border:rgba(168,85,247,.4);--tint-glow:rgba(168,85,247,.10)}
+.bento-card:nth-child(4){--tint:rgba(74,222,128,.08);--tint-border:rgba(74,222,128,.35);--tint-glow:rgba(74,222,128,.08)}
+.bento-card:nth-child(5){--tint:rgba(34,211,238,.10);--tint-border:rgba(34,211,238,.4);--tint-glow:rgba(34,211,238,.10)}
+.bento-card:nth-child(6){--tint:rgba(255,228,73,.10);--tint-border:rgba(255,228,73,.4);--tint-glow:rgba(255,228,73,.06)}
+.bento-card:nth-child(7){--tint:rgba(255,140,66,.10);--tint-border:rgba(255,140,66,.4);--tint-glow:rgba(255,140,66,.10)}
+.bento-card:nth-child(8){--tint:rgba(168,85,247,.10);--tint-border:rgba(168,85,247,.4);--tint-glow:rgba(168,85,247,.10)}
+.bento-card:nth-child(9){--tint:rgba(74,222,128,.08);--tint-border:rgba(74,222,128,.35);--tint-glow:rgba(74,222,128,.08)}
+.bc-icon{width:42px;height:42px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--gold);transition:transform .35s var(--ease),background .25s,border-color .25s}
+.bento-card:hover .bc-icon{transform:scale(1.08) rotate(-3deg);background:var(--tint);border-color:var(--tint-border)}
+.bc-icon svg{width:20px;height:20px;stroke-width:1.5}
+.bc-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.bc-desc{font-size:13px;color:var(--text-2);line-height:1.65;font-weight:400}
+.bc-tag{display:inline-block;margin-top:18px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border-2);color:var(--text-2);transition:all .3s var(--ease)}
+.bento-card:hover .bc-tag{background:var(--tint);border-color:var(--tint-border);color:var(--text)}
+.bento-card.wide .bc-inner{display:flex;align-items:flex-start;gap:28px}
+.bento-card.wide .bc-visual{flex-shrink:0;width:80px;height:80px;border-radius:18px;background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.bento-card.wide .bc-visual svg{width:36px;height:36px;stroke-width:1.3}
+
+@media(max-width:960px){
+  .proc-cards{grid-template-columns:1fr 1fr 1fr}
+  .bento{grid-template-columns:1fr 1fr}
+  .bento-card.wide{grid-column:span 2}
+  .bento-card.wide .bc-inner{flex-direction:column;gap:16px}
+}
+@media(max-width:680px){
+  .proc-cards{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr}
+  .bento-card.wide{grid-column:span 1}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--border)}
+  .stat:nth-child(2),.stat:nth-child(4){border-right:none}
+  .hero-title{font-size:clamp(2.6rem,12vw,5rem)}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <svg class="logo-svg-el" viewBox="0 0 36 36" fill="none">
+      <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#lg1)" stroke-width="1" fill="none" stroke-linejoin="round"/>
+      <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#lg1)">BH</text>
+      <defs><linearGradient id="lg1" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+    </svg>
+    <div class="logo-wm">
+      <span class="logo-name">Bether</span>
+      <span class="logo-sub">Studio</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Inicio</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="precios.html">Precios</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul>
+  <a href="contacto.html" class="nav-cta">Comenzar</a>
+  <button class="mt" id="mt" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mmenu" id="mm">
+  <button class="mclose" id="mc" aria-label="Cerrar">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="precios.html">Precios</a>
+  <a href="contacto.html">Contacto</a>
+</div>
+<div class="sb" id="sb"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <div class="live-dot"></div>
+    <span class="ey-txt">Buenos Aires · Disponible ahora</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="l1">No son solo</span>
+    <span class="l1">invitaciones.</span>
+    <span class="l2">Son <em>experiencias.</em></span>
+  </h1>
+  <p class="hero-sub">Cada invitado recibe <strong>su propio link con su nombre</strong>. Lo abre y empieza la experiencia. Sin app, sin descarga, sin límites.</p>
+  <div class="concept-pills">
+    <span class="cp">Link personalizado</span>
+    <span class="cp">Panel de control</span>
+    <span class="cp">Video con IA</span>
+    <span class="cp">Armado de mesa</span>
+    <span class="cp">Mini-juego</span>
+  </div>
+  <div class="hero-actions">
+    <a href="portfolio.html" class="btn btn-primary">Ver experiencias</a>
+    <a href="https://wa.me/5491137028226" class="btn btn-wa" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3 4.8 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 0 1-5.2-1.5L3 22l1.5-3.7A10 10 0 1 1 12 22Z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <div class="stats-row" id="statsRow">
+    <div class="stat"><span class="stat-n" id="sn1">0</span><span class="stat-l">Experiencias</span></div>
+    <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Digital</span></div>
+    <div class="stat"><span class="stat-n" id="sn2">0</span><span class="stat-l">Entrega</span></div>
+    <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Temáticas</span></div>
+  </div>
+  <div class="scroll-hint"><span>Explorá</span><div class="scroll-arrow"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap"><div class="mq-track" id="mq">
+  <span>Casamientos</span><span class="sep">●</span>
+  <span>Quinceañeras</span><span class="sep">●</span>
+  <span>Bautismos</span><span class="sep">●</span>
+  <span>Infantiles</span><span class="sep">●</span>
+  <span>Para adultos</span><span class="sep">●</span>
+  <span>Personajes favoritos</span><span class="sep">●</span>
+  <span>Mario Bros</span><span class="sep">●</span>
+  <span>Frozen</span><span class="sep">●</span>
+  <span>Spiderman</span><span class="sep">●</span>
+  <span>Dinosaurios</span><span class="sep">●</span>
+  <span>Minecraft</span><span class="sep">●</span>
+  <span>Encanto</span><span class="sep">●</span>
+</div></div>
+
+<!-- PROOF -->
+<div class="proof-bar reveal">
+  <div class="proof-inner">
+    <div class="proof-item"><span class="proof-stars">★★★★★</span><span class="proof-text"><strong>5.0</strong> Google</span></div>
+    <div class="proof-div"></div>
+    <div class="proof-item"><span class="proof-text"><strong>+50</strong> familias felices</span></div>
+    <div class="proof-div"></div>
+    <div class="proof-item"><span class="proof-text"><strong>100%</strong> recomendación</span></div>
+    <div class="proof-div"></div>
+    <div class="proof-item"><span class="proof-text">Entrega <strong>24–48 hs</strong></span></div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag reveal">El proceso</div>
+      <h2 class="sec-title reveal">Así funciona la <em>magia</em></h2>
+      <p class="sec-sub reveal">Desde que nos escribís hasta que tu invitado abre el link y no puede cerrar la pantalla.</p>
+    </div>
+    <div class="proc-cards">
+      <div class="proc-card reveal">
+        <span class="pc-num">01</span>
+        <div class="pc-name">Un link con nombre propio</div>
+        <p class="pc-desc">Una URL personalizada con el nombre del invitado. Sin descarga, sin app. Abre y empieza.</p>
+      </div>
+      <div class="proc-card reveal d1">
+        <span class="pc-num">02</span>
+        <div class="pc-name">La experiencia los envuelve</div>
+        <p class="pc-desc">Animaciones, música con IA, video personalizado dentro de la invitación. En el primer segundo ya saben que va a ser diferente.</p>
+      </div>
+      <div class="proc-card reveal d2">
+        <span class="pc-num">03</span>
+        <div class="pc-name">Juegan, exploran, viven</div>
+        <p class="pc-desc">Mini-juego o trivia, countdown, mapa del salón, sugerencias para la playlist. Interacción que no termina en el primer scroll.</p>
+      </div>
+      <div class="proc-card reveal d3">
+        <span class="pc-num">04</span>
+        <div class="pc-name">Confirman — vos ves todo</div>
+        <p class="pc-desc">Confirmación con un tap. Vos tenés panel en tiempo real: quién vino, puntajes, lista lista para el salón.</p>
+      </div>
+      <div class="proc-card reveal d4">
+        <span class="pc-num">05</span>
+        <div class="pc-name">A disfrutar el evento</div>
+        <p class="pc-desc">Con el armado de mesa inteligente y la lista preparada, llegás relajado. La experiencia empezó antes de la fiesta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENTO -->
+<section class="section" style="padding-top:0">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag reveal">Todo lo que incluye</div>
+      <h2 class="sec-title reveal">Una experiencia completa<br>que <strong>ninguna invitación común tiene</strong></h2>
+    </div>
+    <div class="bento">
+
+      <div class="bento-card wide reveal">
+        <div class="bc-inner">
+          <div class="bc-visual">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5 1l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-1l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
+          </div>
+          <div>
+            <div class="bc-title">Link con nombre propio — generado automáticamente</div>
+            <p class="bc-desc">Cada invitado recibe su propio link único con su nombre. No es solo una invitación, es un gesto. Más cálido, más personal, más recordado. Sin descarga, sin app.</p>
+            <span class="bc-tag">Exclusivo Bether</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card reveal d1">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg></div>
+        <div class="bc-title">Panel en tiempo real</div>
+        <p class="bc-desc">Quién confirmó, quién no, qué puntaje hicieron en el juego. Todo desde tu celular. Sin planillas.</p>
+        <span class="bc-tag">En vivo</span>
+      </div>
+
+      <div class="bento-card reveal d2">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <div class="bc-title">Video personalizado con IA</div>
+        <p class="bc-desc">Un video único dentro de la invitación, con música generada por IA que acompaña la temática.</p>
+        <span class="bc-tag">Con IA</span>
+      </div>
+
+      <div class="bento-card wide reveal d3">
+        <div class="bc-inner">
+          <div class="bc-visual">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="10" rx="2"/><path d="M7 10V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/><path d="M3 16h18"/></svg>
+          </div>
+          <div>
+            <div class="bc-title">Armado de mesa inteligente + lista para el salón</div>
+            <p class="bc-desc">Acomodás a tus invitados según el salón con nuestra herramienta inteligente. La lista queda lista para presentar. Sin estrés, sin papeles, sin planillas que se pierden.</p>
+            <span class="bc-tag">Organización total</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card reveal d1">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><circle cx="17" cy="12" r="2"/></svg></div>
+        <div class="bc-title">Mini-juego o trivia temática</div>
+        <p class="bc-desc">Canvas interactivo con la temática del evento. Tus invitados juegan y compiten antes de llegar.</p>
+        <span class="bc-tag">Interactivo</span>
+      </div>
+
+      <div class="bento-card reveal d2">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div class="bc-title">Música + sugerencias playlist</div>
+        <p class="bc-desc">Audio temático generado con IA, más sugerencias de canciones para armar la playlist del evento.</p>
+        <span class="bc-tag">Con IA</span>
+      </div>
+
+      <div class="bento-card reveal d3">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></div>
+        <div class="bc-title">Countdown en vivo</div>
+        <p class="bc-desc">Días, horas, minutos y segundos hasta el evento. Se actualiza solo.</p>
+        <span class="bc-tag">Tiempo real</span>
+      </div>
+
+      <div class="bento-card reveal d1">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="bc-title">Mapas integrados</div>
+        <p class="bc-desc">Google Maps, Waze y Apple Maps. Un tap y el GPS abre directo al salón.</p>
+        <span class="bc-tag">Sin fricción</span>
+      </div>
+
+      <div class="bento-card reveal d2">
+        <div class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="bc-title">RSVP + calendario</div>
+        <p class="bc-desc">Confirmación con GIF personalizado y un tap para agregar el evento al calendario.</p>
+        <span class="bc-tag">Elegante</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="padding-top:0">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag reveal">Testimonios</div>
+      <h2 class="sec-title reveal">Lo dicen quienes <em>ya lo vivieron</em></h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-q">"Mis invitados no podían creerlo. Nunca habían visto una invitación así. El mini-juego fue lo mejor."</div>
+        <div class="test-auth">
+          <div class="test-av">CM</div>
+          <div class="test-info">Carolina M.<span>Cumple de Mateo · Mario Bros</span></div>
+        </div>
+      </div>
+      <div class="test-card reveal d1">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-q">"El sobre animado de nuestro casamiento fue increíble. Todos nos preguntaron quién lo hizo."</div>
+        <div class="test-auth">
+          <div class="test-av">LM</div>
+          <div class="test-info">Lucía &amp; Martín<span>Casamiento · Elegancia Dorada</span></div>
+        </div>
+      </div>
+      <div class="test-card reveal d2">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-q">"En 24 horas teníamos la invitación. Profesional, rápido y con una atención increíble."</div>
+        <div class="test-auth">
+          <div class="test-av">FR</div>
+          <div class="test-info">Federico R.<span>Quinceañera · Custom</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-inner reveal">
+    <h2>¿Listo para crear algo<br>que <em>nadie va a olvidar?</em></h2>
+    <p>Contanos la idea. En menos de 24 hs tenés una propuesta.</p>
+    <div class="cta-btns">
+      <a href="contacto.html" class="btn btn-primary">Empezar ahora</a>
+      <a href="portfolio.html" class="btn btn-ghost">Ver portfolio</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-brand-logo">
+          <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+            <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#fg2)" stroke-width="1" fill="none"/>
+            <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#fg2)">BH</text>
+            <defs><linearGradient id="fg2" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+          </svg>
+          <span class="foot-brand-name">Bether Studio</span>
+        </div>
+        <p class="foot-desc">Invitaciones digitales interactivas que convierten un link en algo que nadie olvida. Buenos Aires, Argentina.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Páginas</h4>
+          <a href="index.html">Inicio</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="precios.html">Precios</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+        <div class="foot-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/5491137028226" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="mailto:hola@betherstudio.com.ar">Email</a>
+          <a href="https://instagram.com/betherstudio" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="foot-copy">© 2026 Bether Studio — Buenos Aires, Argentina</span>
+      
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="bt" aria-label="Volver arriba">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Contacto — Bether Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;align-items:start;max-width:var(--max-w);margin:0 auto;padding:0 24px 80px}
+.contact-left{position:sticky;top:100px}
+
+.cms{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.cm{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:18px 20px;text-decoration:none;color:var(--text);transition:all .25s var(--ease);position:relative}
+.cm:hover{background:var(--surface-2);border-color:var(--border-2);transform:translateX(4px)}
+.cm-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface-2);border:1px solid var(--border-2)}
+.cm-icon svg{width:18px;height:18px;stroke-width:1.6}
+.cm:nth-child(1) .cm-icon{color:var(--green);background:var(--green-soft);border-color:rgba(74,222,128,.22)}
+.cm:nth-child(2) .cm-icon{color:var(--gold)}
+.cm:nth-child(3) .cm-icon{color:var(--coral)}
+.cm-name{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:2px;letter-spacing:-.005em}
+.cm-sub{font-size:12px;color:var(--text-3);font-weight:400}
+.cm-arrow{margin-left:auto;font-size:15px;color:var(--text-3);transition:transform .25s,color .25s}
+.cm:hover .cm-arrow{transform:translateX(4px);color:var(--gold)}
+
+.resp-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);border:1px solid rgba(74,222,128,.25);padding:10px 18px;border-radius:99px;font-size:12px;color:var(--green);font-weight:500;letter-spacing:-.005em}
+.resp-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.6);flex-shrink:0;animation:livePulse 2s ease infinite}
+@keyframes livePulse{0%,100%{box-shadow:0 0 6px rgba(74,222,128,.5)}50%{box-shadow:0 0 14px rgba(74,222,128,.9)}}
+
+.cform{background:var(--surface);border:1px solid var(--border-2);border-radius:var(--r-xl);padding:44px;position:relative;overflow:hidden}
+.cform::before{content:"";position:absolute;top:-100px;right:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(212,165,116,.06),transparent 70%);pointer-events:none}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;font-style:italic;margin-bottom:8px;color:var(--text);letter-spacing:-.02em;position:relative}
+.form-sub{font-size:13px;color:var(--text-3);margin-bottom:32px;line-height:1.6;position:relative}
+
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;position:relative}
+.fg{margin-bottom:12px;position:relative}
+.fg label{display:block;font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.fg input,.fg textarea,.fg select{width:100%;padding:13px 16px;background:rgba(255,255,255,.03);border:1px solid var(--border-2);border-radius:12px;font-size:14px;color:var(--text);font-family:inherit;font-weight:400;outline:none;transition:border-color .25s,background .25s,box-shadow .25s;-webkit-appearance:none;resize:none;letter-spacing:-.005em}
+.fg input:hover,.fg textarea:hover,.fg select:hover{border-color:var(--border-3);background:rgba(255,255,255,.045)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);background:rgba(255,255,255,.05);box-shadow:0 0 0 3px rgba(212,165,116,.12)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text-4)}
+.fg select{cursor:pointer}
+.fg select option{background:var(--bg2);color:var(--text)}
+.fg textarea{min-height:110px;line-height:1.55}
+
+.form-status{display:none;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:12px;margin-top:14px;font-size:13px;font-weight:500;letter-spacing:-.005em}
+.form-status.success{display:flex;background:var(--green-soft);border:1px solid rgba(74,222,128,.28);color:var(--green)}
+.form-status.error{display:flex;background:rgba(255,93,122,.08);border:1px solid rgba(255,93,122,.25);color:var(--coral)}
+.form-status.loading{display:flex;background:var(--surface);border:1px solid var(--border-2);color:var(--text-2)}
+
+.btn-send{width:100%;margin-top:20px;padding:16px;border-radius:99px;background:var(--text);color:var(--bg);border:none;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s var(--ease);position:relative;letter-spacing:-.005em}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,255,255,.2)}
+.btn-send:disabled{opacity:.5;cursor:not-allowed;transform:none !important;box-shadow:none}
+
+.f-note{font-size:11.5px;color:var(--text-3);text-align:center;margin-top:14px;font-weight:400;line-height:1.6}
+
+@media(max-width:900px){
+  .contact-grid{grid-template-columns:1fr;gap:36px}
+  .contact-left{position:relative;top:auto}
+}
+@media(max-width:680px){
+  .cform{padding:28px 22px}
+  .f-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <svg class="logo-svg-el" viewBox="0 0 36 36" fill="none">
+      <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#lg1)" stroke-width="1" fill="none" stroke-linejoin="round"/>
+      <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#lg1)">BH</text>
+      <defs><linearGradient id="lg1" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+    </svg>
+    <div class="logo-wm"><span class="logo-name">Bether</span><span class="logo-sub">Studio</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="precios.html">Precios</a></li>
+    <li><a href="contacto.html" class="active">Contacto</a></li>
+  </ul>
+  <a href="contacto.html" class="nav-cta">Comenzar</a>
+  <button class="mt" id="mt" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mmenu" id="mm">
+  <button class="mclose" id="mc" aria-label="Cerrar">✕</button>
+  <a href="index.html">Inicio</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="precios.html">Precios</a>
+  <a href="contacto.html">Contacto</a>
+</div>
+<div class="sb" id="sb"></div>
+
+<div class="ph">
+  <div class="sec-tag reveal" style="justify-content:center">Contacto</div>
+  <h1 class="reveal">¿Listo para crear<br>la <em>experiencia?</em></h1>
+  <p class="reveal">Contanos tu idea. En menos de 24 hs tenés una propuesta. Sin compromiso.</p>
+</div>
+
+<div class="contact-grid">
+
+  <div class="contact-left reveal">
+    <div class="cms">
+      <a href="https://wa.me/5491137028226" class="cm" target="_blank" rel="noopener">
+        <div class="cm-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3 4.8 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 0 1-5.2-1.5L3 22l1.5-3.7A10 10 0 1 1 12 22Z"/></svg>
+        </div>
+        <div>
+          <div class="cm-name">WhatsApp</div>
+          <div class="cm-sub">Respuesta en minutos</div>
+        </div>
+        <span class="cm-arrow">→</span>
+      </a>
+      <a href="mailto:hola@betherstudio.com.ar" class="cm">
+        <div class="cm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="cm-name">Email</div>
+          <div class="cm-sub">hola@betherstudio.com.ar</div>
+        </div>
+        <span class="cm-arrow">→</span>
+      </a>
+      <a href="https://instagram.com/betherstudio" class="cm" target="_blank" rel="noopener">
+        <div class="cm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <div class="cm-name">Instagram</div>
+          <div class="cm-sub">@betherstudio</div>
+        </div>
+        <span class="cm-arrow">→</span>
+      </a>
+    </div>
+    <div class="resp-badge"><span class="resp-dot"></span>Respondemos en menos de 24 hs</div>
+  </div>
+
+  <div class="cform reveal d1">
+    <div class="form-title">Contanos tu idea</div>
+    <p class="form-sub">Cuanto más nos cuentes, mejor la propuesta. Pero no es obligatorio llenar todo.</p>
+    <form id="cForm">
+      <div class="f-row">
+        <div class="fg"><label>Tu nombre *</label><input type="text" name="nombre" placeholder="María González" required/></div>
+        <div class="fg"><label>WhatsApp / Email *</label><input type="text" name="contacto" placeholder="+54 9 11 0000-0000" required/></div>
+      </div>
+      <div class="f-row">
+        <div class="fg">
+          <label>Tipo de evento *</label>
+          <select name="tipo_evento" required>
+            <option value="">Elegir...</option>
+            <option value="cumple_infantil">Cumpleaños infantil</option>
+            <option value="casamiento">Casamiento</option>
+            <option value="quinceanera">Quinceañera</option>
+            <option value="bautismo">Bautismo</option>
+            <option value="graduacion">Graduación</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <div class="fg"><label>Temática</label><input type="text" name="tematica" placeholder="Mario Bros, Frozen, a medida..."/></div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label>Fecha del evento</label><input type="date" name="fecha_evento"/></div>
+        <div class="fg">
+          <label>Plan de interés</label>
+          <select name="plan">
+            <option value="">No sé todavía</option>
+            <option value="basico">Básico</option>
+            <option value="premium">Premium</option>
+            <option value="elite">Elite</option>
+            <option value="medida">A medida</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Contáme más</label>
+        <textarea name="mensaje" placeholder="Nombre del festejado, cantidad de invitados, lugar, referencias visuales..."></textarea>
+      </div>
+      <div class="fg">
+        <label>¿Cómo nos conociste?</label>
+        <select name="fuente">
+          <option value="">Elegir...</option>
+          <option value="instagram">Instagram</option>
+          <option value="recomendacion">Recomendación</option>
+          <option value="google">Google</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-send" id="fBtn">Enviar consulta</button>
+      <div class="form-status" id="fStatus"></div>
+      <p class="f-note">Respuesta en menos de 24 horas · Sin compromiso · Datos protegidos</p>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-brand-logo">
+          <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+            <path d="M18 2 L33 11 L33 25 L18 34 L3 25 L3 11 Z" stroke="url(#fg2)" stroke-width="1" fill="none"/>
+            <text x="18" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" font-weight="600" fill="url(#fg2)">BH</text>
+            <defs><linearGradient id="fg2" x1="3" y1="2" x2="33" y2="34"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#e6c08a"/></linearGradient></defs>
+          </svg>
+          <span class="foot-brand-name">Bether Studio</span>
+        </div>
+        <p class="foot-desc">Invitaciones digitales interactivas que convierten un link en algo que nadie olvida. Buenos Aires, Argentina.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Páginas</h4>
+          <a href="index.html">Inicio</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="precios.html">Precios</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+        <div class="foot-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/5491137028226" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="mailto:hola@betherstudio.com.ar">Email</a>
+          <a href="https://instagram.com/betherstudio" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="foot-copy">© 2026 Bether Studio — Buenos Aires, Argentina</span>
+      
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="bt" aria-label="Volver arriba">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="shared.js"></script>
+<script>
+/* ─── FORM SUBMISSION ─── */
+const WA_NUMBER = '541137028226';
+const EMAIL_TO  = 'betianahernan@gmail.com';
+
+document.getElementById('cForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn=document.getElementById('fBtn'), status=document.getElementById('fStatus'), form=this;
+
+  const nombre   = form.nombre.value.trim();
+  const contacto = form.contacto.value.trim();
+  const tipo     = form.tipo_evento.options[form.tipo_evento.selectedIndex].text;
+  const tematica = form.tematica.value.trim() || 'No especificada';
+  const fecha    = form.fecha_evento.value || 'No especificada';
+  const plan     = form.plan.options[form.plan.selectedIndex].text;
+  const mensaje  = form.mensaje.value.trim() || 'Sin mensaje adicional';
+  const fuente   = form.fuente.options[form.fuente.selectedIndex].text;
+
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  status.className='form-status loading';
+  status.textContent='Preparando notificaciones...';
+
+  const waText = encodeURIComponent(
+    `🌟 *Nueva consulta — Bether Studio*\n\n` +
+    `👤 *Nombre:* ${nombre}\n` +
+    `📱 *Contacto:* ${contacto}\n` +
+    `🎉 *Evento:* ${tipo}\n` +
+    `✨ *Temática:* ${tematica}\n` +
+    `📅 *Fecha:* ${fecha}\n` +
+    `💎 *Plan:* ${plan}\n` +
+    `💬 *Mensaje:* ${mensaje}\n` +
+    `📍 *Fuente:* ${fuente}`
+  );
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${waText}`;
+
+  const emailSubject = encodeURIComponent(`Nueva consulta de ${nombre} — Bether Studio`);
+  const emailBody = encodeURIComponent(
+    `Nueva consulta recibida desde el sitio web:\n\n` +
+    `Nombre: ${nombre}\n` +
+    `Contacto: ${contacto}\n` +
+    `Tipo de evento: ${tipo}\n` +
+    `Temática: ${tematica}\n` +
+    `Fecha del evento: ${fecha}\n` +
+    `Plan de interés: ${plan}\n` +
+    `Mensaje: ${mensaje}\n` +
+    `Cómo nos conoció: ${fuente}\n\n` +
+    `Enviado desde betherstudio.com`
+  );
+  const mailUrl = `mailto:${EMAIL_TO}?subject=${emailSubject}&body=${emailBody}`;
+
+  setTimeout(()=>{
+    window.open(waUrl,'_blank');
+    setTimeout(()=>{ window.location.href=mailUrl; },800);
+    status.className='form-status success';
+    status.textContent='¡Consulta enviada! Te respondemos en menos de 24 hs.';
+    btn.textContent='Enviado ✓';
+    btn.style.background='linear-gradient(135deg,#3a8a50,#4ade80)';
+    btn.style.color='#fff';
+    form.reset();
+  },600);
+});
+</script>
+</body>
+</html>
