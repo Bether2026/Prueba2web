@@ -180,6 +180,293 @@
   .flow-line{width:28px;height:1px}
 }
 
+
+/* ═══════════════════════════════════════════
+   HERO — 2 COLUMNAS
+═══════════════════════════════════════════ */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:120px 48px 60px;
+  position:relative;overflow:hidden;
+  text-align:left;
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:center;
+  max-width:1160px;
+  width:100%;
+  margin:0 auto;
+}
+.hero-copy{ display:flex;flex-direction:column;gap:0; }
+
+/* Eyebrow, title, sub — quitar text-align:center heredado */
+.hero-copy .hero-eyebrow{ align-self:flex-start; }
+.hero-copy .hero-title{ text-align:left; }
+.hero-copy .hero-sub{ text-align:left; }
+.hero-copy .concept-pills{ justify-content:flex-start; }
+.hero-copy .hero-actions{ justify-content:flex-start; }
+.hero-copy .stats-row{
+  margin:40px 0 0;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  max-width:100%;
+  animation:none;
+}
+
+/* ── TELÉFONO HERO ───────────────────────── */
+.hero-phone-col{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.hpc-wrap{ position:relative;width:280px; }
+
+.hpc-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(212,165,116,.18) 0%,
+    rgba(255,93,122,.10) 40%,
+    transparent 70%);
+  filter:blur(40px);
+  animation:glowPulse 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+}
+
+.hpc-frame{
+  width:260px;
+  background:linear-gradient(160deg,#1e1e24,#13131a);
+  border-radius:46px;padding:13px;
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,.12),
+    0 0 0 3px rgba(0,0,0,.9),
+    0 50px 100px rgba(0,0,0,.8),
+    0 0 0 1.5px rgba(255,255,255,.04) inset;
+  position:relative;z-index:2;
+  animation:floatPhone 6s ease-in-out infinite;
+}
+@keyframes floatPhone{
+  0%,100%{transform:translateY(0) rotate(-.5deg)}
+  50%{transform:translateY(-12px) rotate(.5deg)}
+}
+
+.hpc-notch{
+  width:110px;height:26px;
+  background:#09090b;border-radius:0 0 18px 18px;
+  margin:0 auto 8px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.hpc-cam{width:9px;height:9px;border-radius:50%;background:#1a1a20;border:1.5px solid rgba(255,255,255,.07)}
+.hpc-spk{width:44px;height:4px;border-radius:99px;background:#1a1a20}
+
+.hpc-screen{
+  background:#09090b;
+  border-radius:34px;
+  aspect-ratio:9/19.5;
+  overflow:hidden;
+  position:relative;
+}
+.hpc-home{
+  width:80px;height:4px;
+  background:rgba(255,255,255,.2);
+  border-radius:99px;
+  margin:10px auto 2px;
+}
+
+/* ── SLIDES ──────────────────────────────── */
+.hpc-slide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity .6s ease;
+  display:flex;flex-direction:column;
+}
+.hpc-slide--active{ opacity:1; }
+
+/* Fondos por slide */
+.hps-bg{ position:absolute;inset:0;z-index:0; }
+.hps-bg--mario{
+  background:linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#3a8a2a);
+}
+.hps-bg--dark{
+  background:linear-gradient(160deg,#09090b,#141420 60%,#1a1025);
+}
+.hps-bg--map{
+  background:linear-gradient(160deg,#0f1f10,#1a3320 60%,#243d28);
+}
+.hps-bg--rsvp{
+  background:linear-gradient(160deg,#1a0a2e,#2d0f4a 50%,#3d1560);
+}
+.hps-bg--game{
+  background:linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#3a8a2a);
+}
+
+/* Contenido de slides */
+.hps-content{
+  position:relative;z-index:1;
+  padding:24px 18px 12px;
+  flex:1;display:flex;flex-direction:column;
+}
+.hps-content--center{
+  align-items:center;justify-content:center;text-align:center;
+}
+.hps-tag{
+  font-size:9px;font-weight:700;letter-spacing:1px;
+  color:rgba(255,255,255,.7);text-transform:uppercase;
+  background:rgba(0,0,0,.4);padding:4px 10px;border-radius:99px;
+  align-self:flex-start;margin-bottom:12px;
+}
+.hps-emoji{font-size:2.2rem;margin-bottom:10px;animation:confettiFloat 2.5s ease-in-out infinite}
+.hps-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;line-height:1.1;margin-bottom:6px}
+.hps-sub{font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.5px}
+
+/* SLIDE 2 — countdown */
+.hps-label{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.hps-countdown{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.hps-cd{text-align:center}
+.hps-cd-n{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:600;color:#fff;line-height:1;
+}
+.hps-cd-l{display:block;font-size:8px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase}
+.hps-cd-sep{font-size:1.8rem;color:var(--gold);margin-bottom:12px;animation:blink 1s ease infinite}
+.hps-cd-label{font-size:11px;color:rgba(255,255,255,.5)}
+
+/* SLIDE 3 — mapa */
+.hps-map-card{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  background:rgba(9,9,11,.92);backdrop-filter:blur(10px);
+  padding:16px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;gap:12px;align-items:flex-start;
+}
+.hps-map-pin{font-size:1.6rem;flex-shrink:0}
+.hps-map-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px}
+.hps-map-addr{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:10px}
+.hps-map-btns{display:flex;gap:8px}
+.hps-map-btn{
+  font-size:9px;font-weight:600;padding:5px 12px;border-radius:99px;
+  background:rgba(212,165,116,.15);border:1px solid rgba(212,165,116,.3);
+  color:var(--gold);letter-spacing:.5px;
+}
+
+/* SLIDE 4 — RSVP */
+.hps-rsvp-name{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:10px}
+.hps-rsvp-name strong{color:#fff}
+.hps-rsvp-q{font-size:15px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:20px}
+.hps-rsvp-btns{display:flex;flex-direction:column;gap:8px;width:100%;max-width:160px}
+.hps-rsvp-yes{
+  padding:11px;border-radius:12px;text-align:center;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;font-size:12px;font-weight:700;
+  box-shadow:0 4px 16px rgba(34,197,94,.3);
+}
+.hps-rsvp-no{
+  padding:11px;border-radius:12px;text-align:center;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.6);font-size:12px;font-weight:500;
+}
+.hps-rsvp-note{font-size:9px;color:rgba(255,255,255,.3);margin-top:14px;letter-spacing:.3px}
+
+/* SLIDE 5 — mini-juego */
+.hps-game-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:14px}
+.hps-game-screen{
+  width:160px;height:90px;background:#000;border-radius:8px;
+  border:2px solid rgba(255,255,255,.1);
+  position:relative;overflow:hidden;margin-bottom:12px;
+}
+.hps-game-mario{
+  position:absolute;bottom:10px;left:20px;
+  font-size:1.5rem;
+  animation:marioJump 1.2s ease-in-out infinite;
+}
+@keyframes marioJump{
+  0%,100%{transform:translateY(0)}
+  40%{transform:translateY(-28px)}
+}
+.hps-game-coins{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:center;gap:16px}
+.hps-coin{font-size:1rem;animation:coinSpin 1.5s ease-in-out infinite}
+.hps-coin--1{animation-delay:0s}
+.hps-coin--2{animation-delay:.2s}
+.hps-coin--3{animation-delay:.4s}
+@keyframes coinSpin{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.3) scaleX(0);opacity:.5}}
+.hps-game-score{font-size:11px;color:rgba(255,255,255,.7);font-weight:600}
+.hps-game-sub{font-size:10px;color:rgba(255,255,255,.4)}
+
+/* Dots indicadores */
+.hpc-dots{
+  position:absolute;bottom:8px;left:0;right:0;
+  display:flex;justify-content:center;gap:5px;z-index:10;
+}
+.hpc-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  transition:all .3s;cursor:pointer;
+}
+.hpc-dot--active{
+  width:16px;border-radius:99px;
+  background:var(--gold);
+}
+
+/* ── BADGES FLOTANTES ────────────────────── */
+.hpc-badge{
+  position:absolute;
+  display:flex;align-items:center;gap:10px;
+  background:rgba(15,15,20,.92);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(16px);
+  border-radius:14px;padding:10px 14px;
+  z-index:10;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  animation:badgeFloat 4s ease-in-out infinite;
+}
+.hpc-badge--1{
+  left:-40px;top:22%;
+  animation-delay:0s;
+  border-color:rgba(74,222,128,.25);
+}
+.hpc-badge--2{
+  right:-44px;bottom:28%;
+  animation-delay:-2s;
+  border-color:rgba(212,165,116,.25);
+}
+@keyframes badgeFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.hpc-badge-icon{font-size:1.2rem}
+.hpc-badge-title{font-size:11px;font-weight:600;color:#fff;white-space:nowrap}
+.hpc-badge-sub{font-size:9.5px;color:rgba(255,255,255,.4);white-space:nowrap}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:960px){
+  #hero{ padding:110px 32px 60px; }
+  .hero-inner{ grid-template-columns:1fr;gap:48px;text-align:center; }
+  .hero-copy .hero-title{ text-align:center; }
+  .hero-copy .hero-sub{ text-align:center; }
+  .hero-copy .concept-pills{ justify-content:center; }
+  .hero-copy .hero-actions{ justify-content:center; }
+  .hero-copy .hero-eyebrow{ align-self:center; }
+  .hero-copy .stats-row{ grid-template-columns:repeat(4,1fr); }
+  .hpc-wrap{ width:240px; }
+  .hpc-frame{ width:240px; }
+  .hpc-badge--1{ left:-20px; }
+  .hpc-badge--2{ right:-20px; }
+}
+@media(max-width:640px){
+  #hero{ padding:100px 20px 48px; }
+  .hero-inner{ gap:36px; }
+  .hpc-wrap{ width:210px; }
+  .hpc-frame{ width:210px; }
+  .hpc-badge{ display:none; }
+  .hero-copy .stats-row{ grid-template-columns:repeat(2,1fr); }
+}
+
 </style>
 </head>
 <body>
@@ -216,36 +503,163 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-eyebrow">
-    <div class="live-dot"></div>
-    <span class="ey-txt">Buenos Aires · Disponible ahora</span>
-  </div>
-  <h1 class="hero-title">
-    <span class="l1">No son solo</span>
-    <span class="l1">invitaciones.</span>
-    <span class="l2">Son <em>experiencias.</em></span>
-  </h1>
-  <p class="hero-sub">Cada invitado recibe <strong>su propio link con su nombre</strong>. Lo abre y empieza la experiencia. Sin app, sin descarga, sin límites.</p>
-  <div class="concept-pills">
-    <span class="cp">Link personalizado</span>
-    <span class="cp">Panel de control</span>
-    <span class="cp">Video con IA</span>
-    <span class="cp">Armado de mesa</span>
-    <span class="cp">Mini-juego</span>
-  </div>
-  <div class="hero-actions">
-    <a href="portfolio.html" class="btn btn-primary">Ver experiencias</a>
-    <a href="https://wa.me/5491137028226" class="btn btn-wa" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3 4.8 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 0 1-5.2-1.5L3 22l1.5-3.7A10 10 0 1 1 12 22Z"/></svg>
-      WhatsApp
-    </a>
-  </div>
-  <div class="stats-row" id="statsRow">
-    <div class="stat"><span class="stat-n" id="sn1">0</span><span class="stat-l">Experiencias</span></div>
-    <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Digital</span></div>
-    <div class="stat"><span class="stat-n" id="sn2">0</span><span class="stat-l">Entrega</span></div>
-    <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Temáticas</span></div>
-  </div>
+  <div class="hero-inner">
+
+    <!-- IZQUIERDA — copy -->
+    <div class="hero-copy">
+      <div class="hero-eyebrow">
+        <div class="live-dot"></div>
+        <span class="ey-txt">Buenos Aires · Disponible ahora</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="l1">No son solo</span>
+        <span class="l1">invitaciones.</span>
+        <span class="l2">Son <em>experiencias.</em></span>
+      </h1>
+      <p class="hero-sub">Cada invitado recibe <strong>su propio link con su nombre</strong>. Lo abre y empieza la experiencia. Sin app, sin descarga, sin límites.</p>
+      <div class="concept-pills">
+        <span class="cp">🔗 Link personalizado</span>
+        <span class="cp">📊 Panel de control</span>
+        <span class="cp">🎬 Video con IA</span>
+        <span class="cp">🪑 Armado de mesa</span>
+        <span class="cp">🎮 Mini-juego</span>
+      </div>
+      <div class="hero-actions">
+        <a href="portfolio.html" class="btn btn-primary">Ver experiencias</a>
+        <a href="https://wa.me/5491137028226" class="btn btn-wa" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3 4.8 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 22a10 10 0 0 1-5.2-1.5L3 22l1.5-3.7A10 10 0 1 1 12 22Z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+      <div class="stats-row" id="statsRow">
+        <div class="stat"><span class="stat-n">+50</span><span class="stat-l">Experiencias</span></div>
+        <div class="stat"><span class="stat-n">24hs</span><span class="stat-l">Entrega</span></div>
+        <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Recomendación</span></div>
+        <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Temáticas</span></div>
+      </div>
+    </div>
+
+    <!-- DERECHA — teléfono con preview en loop -->
+    <div class="hero-phone-col">
+      <div class="hpc-wrap">
+        <!-- Glow de fondo -->
+        <div class="hpc-glow"></div>
+        <!-- Teléfono -->
+        <div class="hpc-frame">
+          <div class="hpc-notch">
+            <div class="hpc-cam"></div>
+            <div class="hpc-spk"></div>
+          </div>
+          <div class="hpc-screen" id="hpcScreen">
+
+            <!-- SLIDE 1: Portada animada -->
+            <div class="hpc-slide hpc-slide--active" id="slide1">
+              <div class="hps-bg hps-bg--mario"></div>
+              <div class="hps-content">
+                <div class="hps-tag">¡Feliz cumple Agustín! 🎉</div>
+                <div class="hps-emoji">🍄⭐🪙</div>
+                <div class="hps-title">Cumpleaños<br>de Agustín</div>
+                <div class="hps-sub">Temática Mario Bros</div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: Countdown -->
+            <div class="hpc-slide" id="slide2">
+              <div class="hps-bg hps-bg--dark"></div>
+              <div class="hps-content hps-content--center">
+                <div class="hps-label">Faltan</div>
+                <div class="hps-countdown">
+                  <div class="hps-cd"><span class="hps-cd-n" id="hpDays">03</span><span class="hps-cd-l">días</span></div>
+                  <div class="hps-cd-sep">:</div>
+                  <div class="hps-cd"><span class="hps-cd-n" id="hpHrs">14</span><span class="hps-cd-l">horas</span></div>
+                  <div class="hps-cd-sep">:</div>
+                  <div class="hps-cd"><span class="hps-cd-n" id="hpMin">22</span><span class="hps-cd-l">min</span></div>
+                </div>
+                <div class="hps-cd-label">Para el gran día 🎈</div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: Mapa + info -->
+            <div class="hpc-slide" id="slide3">
+              <div class="hps-bg hps-bg--map"></div>
+              <div class="hps-map-card">
+                <div class="hps-map-pin">📍</div>
+                <div class="hps-map-info">
+                  <div class="hps-map-title">Salón El Paraíso</div>
+                  <div class="hps-map-addr">Av. Corrientes 1234, CABA</div>
+                  <div class="hps-map-btns">
+                    <div class="hps-map-btn">Maps</div>
+                    <div class="hps-map-btn">Waze</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 4: RSVP -->
+            <div class="hpc-slide" id="slide4">
+              <div class="hps-bg hps-bg--rsvp"></div>
+              <div class="hps-content hps-content--center">
+                <div class="hps-rsvp-name">Hola, <strong>Valentina</strong> 👋</div>
+                <div class="hps-rsvp-q">¿Vas a venir al cumple<br>de Agustín?</div>
+                <div class="hps-rsvp-btns">
+                  <div class="hps-rsvp-yes">✓ ¡Sí, voy!</div>
+                  <div class="hps-rsvp-no">✗ No puedo</div>
+                </div>
+                <div class="hps-rsvp-note">Link personalizado para vos</div>
+              </div>
+            </div>
+
+            <!-- SLIDE 5: Mini-juego -->
+            <div class="hpc-slide" id="slide5">
+              <div class="hps-bg hps-bg--game"></div>
+              <div class="hps-content hps-content--center">
+                <div class="hps-game-title">🎮 Mini-juego</div>
+                <div class="hps-game-screen">
+                  <div class="hps-game-mario">🍄</div>
+                  <div class="hps-game-coins">
+                    <span class="hps-coin hps-coin--1">🪙</span>
+                    <span class="hps-coin hps-coin--2">🪙</span>
+                    <span class="hps-coin hps-coin--3">🪙</span>
+                  </div>
+                  <div class="hps-game-score">Score: <strong>320</strong></div>
+                </div>
+                <div class="hps-game-sub">Jugá mientras esperás</div>
+              </div>
+            </div>
+
+            <!-- Indicadores de slide -->
+            <div class="hpc-dots">
+              <div class="hpc-dot hpc-dot--active" data-s="0"></div>
+              <div class="hpc-dot" data-s="1"></div>
+              <div class="hpc-dot" data-s="2"></div>
+              <div class="hpc-dot" data-s="3"></div>
+              <div class="hpc-dot" data-s="4"></div>
+            </div>
+
+          </div><!-- /hpc-screen -->
+          <div class="hpc-home"></div>
+        </div><!-- /hpc-frame -->
+
+        <!-- Badge flotante -->
+        <div class="hpc-badge hpc-badge--1">
+          <span class="hpc-badge-icon">✓</span>
+          <div>
+            <div class="hpc-badge-title">Valentina confirmó</div>
+            <div class="hpc-badge-sub">hace 2 minutos</div>
+          </div>
+        </div>
+        <div class="hpc-badge hpc-badge--2">
+          <span class="hpc-badge-icon">🎮</span>
+          <div>
+            <div class="hpc-badge-title">Score: 1.240 pts</div>
+            <div class="hpc-badge-sub">Mini-juego</div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /hero-phone-col -->
+
+  </div><!-- /hero-inner -->
   <div class="scroll-hint"><span>Explorá</span><div class="scroll-arrow"></div></div>
 </section>
 
@@ -519,5 +933,66 @@
 </button>
 
 <script src="shared.js"></script>
+
+<script>
+/* ── HERO PHONE SLIDER ────────────────────────────── */
+(function(){
+  const slides = document.querySelectorAll('.hpc-slide');
+  const dots   = document.querySelectorAll('.hpc-dot');
+  if(!slides.length) return;
+
+  let cur = 0, timer;
+  const DURATION = 3200; // ms por slide
+
+  function goTo(n){
+    slides[cur].classList.remove('hpc-slide--active');
+    dots[cur].classList.remove('hpc-dot--active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('hpc-slide--active');
+    dots[cur].classList.add('hpc-dot--active');
+    /* Animar countdown si es el slide 2 */
+    if(cur === 1) animateCountdown();
+  }
+
+  function next(){ goTo(cur + 1); }
+
+  function startAuto(){ timer = setInterval(next, DURATION); }
+  function stopAuto() { clearInterval(timer); }
+
+  dots.forEach((d, i) => {
+    d.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); });
+  });
+
+  /* Swipe en mobile */
+  let tsx = 0;
+  const screen = document.getElementById('hpcScreen');
+  if(screen){
+    screen.addEventListener('touchstart', e => { tsx = e.touches[0].clientX; }, {passive:true});
+    screen.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tsx;
+      if(Math.abs(dx) > 40){ stopAuto(); goTo(cur + (dx < 0 ? 1 : -1)); startAuto(); }
+    }, {passive:true});
+  }
+
+  /* Countdown animado */
+  function animateCountdown(){
+    const days = document.getElementById('hpDays');
+    const hrs  = document.getElementById('hpHrs');
+    const min  = document.getElementById('hpMin');
+    if(!days) return;
+    let d=3, h=14, m=22;
+    const cd = setInterval(()=>{
+      m--; if(m<0){m=59;h--;} if(h<0){h=23;d--;}
+      if(days) days.textContent = String(d).padStart(2,'0');
+      if(hrs)  hrs.textContent  = String(h).padStart(2,'0');
+      if(min)  min.textContent  = String(m).padStart(2,'0');
+    }, 80);
+    setTimeout(()=>clearInterval(cd), 2800);
+  }
+
+  startAuto();
+})();
+</script>
+
 </body>
 </html>
