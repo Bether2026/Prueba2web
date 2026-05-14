@@ -874,12 +874,14 @@
       border-radius:32px;
       overflow:hidden;
       position:relative;
-      flex:1;
+      width:100%;
+      aspect-ratio:9/19.5;
     ">
       <iframe
         id="invIframe"
         src="about:blank"
         style="
+          position:absolute;top:0;left:0;
           width:100%;height:100%;
           border:none;display:block;
         "
@@ -914,39 +916,29 @@
   const INV_URL = 'https://bether2026.github.io/MarioBross/';
   let loaded = false;
 
-  /* Calcular tamaño del teléfono en el modal */
-  function calcSize(){
+  /* Calcular ancho del teléfono.
+     El alto lo maneja CSS con aspect-ratio en el screen. */
+  function phoneWidth(){
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    /* Queremos que el TELÉFONO (frame+padding) ocupe:
-       - Máximo 88vh de alto
-       - Máximo 92vw de ancho
-       - Proporción: el screen es 9:19.5
-       - El frame tiene padding de 12px por lado + notch 32px + home 22px
-       => overhead vertical: 66px, horizontal: 24px
-    */
-    const padV = 66, padH = 24;
-    const maxScreenH = vh * .88 - padV;
-    const maxScreenW = vw * .92 - padH;
-    // proporción screen 9:19.5
-    let sw = maxScreenH * (9/19.5);
-    if(sw > maxScreenW){ sw = maxScreenW; }
-    const sh = sw * (19.5/9);
-    const frameW = sw + padH;
-    const frameH = sh + padV;
-    const br = Math.round(frameW * .16);
-    return { frameW, frameH, sw, sh, br };
+    // El screen tiene proporción 9:19.5
+    // Queremos que el teléfono ocupe máx 86vh de alto
+    // alto_frame ≈ alto_screen + 66px (notch+padding+home)
+    // alto_screen = ancho_screen * 19.5/9
+    // => ancho_screen = (86vh - 66) * 9/19.5
+    const maxByHeight = (vh * .86 - 66) * (9/19.5);
+    const maxByWidth  = vw * .88;
+    return Math.round(Math.min(maxByHeight, maxByWidth));
   }
 
   function openModal(){
-    const { frameW, frameH, sw, sh, br } = calcSize();
+    const w  = phoneWidth();
+    const br = Math.round(w * .15);
 
-    /* Aplicar tamaño al phone frame */
-    phone.style.width        = frameW + 'px';
+    /* Solo fijar el ANCHO — el alto lo da el aspect-ratio del screen */
+    phone.style.width        = w + 'px';
     phone.style.borderRadius = br + 'px';
-    screen.style.width       = sw + 'px';
-    screen.style.height      = sh + 'px';
-    screen.style.borderRadius= Math.round(br * .75) + 'px';
+    screen.style.borderRadius= Math.round(br * .7) + 'px';
 
     /* Mostrar modal */
     modal.style.display = 'flex';
@@ -989,12 +981,11 @@
   /* Resize */
   window.addEventListener('resize', () => {
     if(modal.style.display === 'none') return;
-    const { frameW, frameH, sw, sh, br } = calcSize();
-    phone.style.width        = frameW + 'px';
+    const w  = phoneWidth();
+    const br = Math.round(w * .15);
+    phone.style.width        = w + 'px';
     phone.style.borderRadius = br + 'px';
-    screen.style.width       = sw + 'px';
-    screen.style.height      = sh + 'px';
-    screen.style.borderRadius= Math.round(br * .75) + 'px';
+    screen.style.borderRadius= Math.round(br * .7) + 'px';
   }, {passive:true});
 
 })();
