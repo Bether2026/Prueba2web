@@ -280,137 +280,115 @@
   margin:10px auto 2px;
 }
 
-/* ── SLIDES ──────────────────────────────── */
-.hpc-slide{
+/* ── PORTADA ESTÁTICA + IFRAME ───────────── */
+.hpc-cover{
+  position:absolute;inset:0;z-index:2;
+  cursor:pointer;
+  transition:opacity .4s ease;
+}
+.hpc-cover-bg{
   position:absolute;inset:0;
-  opacity:0;
-  transition:opacity .6s ease;
-  display:flex;flex-direction:column;
-}
-.hpc-slide--active{ opacity:1; }
-
-/* Fondos por slide */
-.hps-bg{ position:absolute;inset:0;z-index:0; }
-.hps-bg--mario{
   background:linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#3a8a2a);
 }
-.hps-bg--dark{
-  background:linear-gradient(160deg,#09090b,#141420 60%,#1a1025);
-}
-.hps-bg--map{
-  background:linear-gradient(160deg,#0f1f10,#1a3320 60%,#243d28);
-}
-.hps-bg--rsvp{
-  background:linear-gradient(160deg,#1a0a2e,#2d0f4a 50%,#3d1560);
-}
-.hps-bg--game{
-  background:linear-gradient(160deg,#0d1f35,#1a4a7a 45%,#2d7cc0 75%,#3a8a2a);
-}
-
-/* Contenido de slides */
-.hps-content{
+.hpc-cover-content{
   position:relative;z-index:1;
-  padding:24px 18px 12px;
-  flex:1;display:flex;flex-direction:column;
+  height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:24px;
+  gap:8px;
 }
-.hps-content--center{
-  align-items:center;justify-content:center;text-align:center;
+.hpc-cover-emojis{
+  font-size:2.4rem;
+  animation:confettiFloat 2.5s ease-in-out infinite;
 }
-.hps-tag{
-  font-size:9px;font-weight:700;letter-spacing:1px;
-  color:rgba(255,255,255,.7);text-transform:uppercase;
-  background:rgba(0,0,0,.4);padding:4px 10px;border-radius:99px;
-  align-self:flex-start;margin-bottom:12px;
+.hpc-cover-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:300;color:#fff;line-height:1.1;
 }
-.hps-emoji{font-size:2.2rem;margin-bottom:10px;animation:confettiFloat 2.5s ease-in-out infinite}
-.hps-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;line-height:1.1;margin-bottom:6px}
-.hps-sub{font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.5px}
-
-/* SLIDE 2 — countdown */
-.hps-label{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.hps-countdown{display:flex;align-items:center;gap:6px;margin-bottom:10px}
-.hps-cd{text-align:center}
-.hps-cd-n{
-  display:block;font-family:'Cormorant Garamond',serif;
-  font-size:2.2rem;font-weight:600;color:#fff;line-height:1;
+.hpc-cover-title strong{font-weight:600}
+.hpc-cover-sub{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.5px;margin-bottom:8px}
+/* Botón pulse */
+.hpc-cover-pulse{position:relative;width:52px;height:52px;margin-top:4px;cursor:pointer}
+.hpc-pulse-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:2px solid rgba(212,165,116,.6);
+  animation:pulseRing 1.8s ease-out infinite;
 }
-.hps-cd-l{display:block;font-size:8px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase}
-.hps-cd-sep{font-size:1.8rem;color:var(--gold);margin-bottom:12px;animation:blink 1s ease infinite}
-.hps-cd-label{font-size:11px;color:rgba(255,255,255,.5)}
-
-/* SLIDE 3 — mapa */
-.hps-map-card{
-  position:absolute;bottom:0;left:0;right:0;z-index:2;
-  background:rgba(9,9,11,.92);backdrop-filter:blur(10px);
-  padding:16px;border-top:1px solid rgba(255,255,255,.08);
-  display:flex;gap:12px;align-items:flex-start;
+@keyframes pulseRing{
+  0%{transform:scale(.8);opacity:1}
+  100%{transform:scale(1.6);opacity:0}
 }
-.hps-map-pin{font-size:1.6rem;flex-shrink:0}
-.hps-map-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px}
-.hps-map-addr{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:10px}
-.hps-map-btns{display:flex;gap:8px}
-.hps-map-btn{
-  font-size:9px;font-weight:600;padding:5px 12px;border-radius:99px;
-  background:rgba(212,165,116,.15);border:1px solid rgba(212,165,116,.3);
-  color:var(--gold);letter-spacing:.5px;
+.hpc-pulse-dot{
+  position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--ink);font-weight:700;
+  box-shadow:0 0 20px rgba(212,165,116,.4);
 }
 
-/* SLIDE 4 — RSVP */
-.hps-rsvp-name{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:10px}
-.hps-rsvp-name strong{color:#fff}
-.hps-rsvp-q{font-size:15px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:20px}
-.hps-rsvp-btns{display:flex;flex-direction:column;gap:8px;width:100%;max-width:160px}
-.hps-rsvp-yes{
-  padding:11px;border-radius:12px;text-align:center;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#fff;font-size:12px;font-weight:700;
-  box-shadow:0 4px 16px rgba(34,197,94,.3);
+/* iframe */
+.hpc-iframe{
+  position:absolute;inset:0;width:100%;height:100%;
+  border:none;z-index:1;
+  opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
+  background:#09090b;
 }
-.hps-rsvp-no{
-  padding:11px;border-radius:12px;text-align:center;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  color:rgba(255,255,255,.6);font-size:12px;font-weight:500;
+.hpc-iframe--active{
+  opacity:1;
+  pointer-events:all;
 }
-.hps-rsvp-note{font-size:9px;color:rgba(255,255,255,.3);margin-top:14px;letter-spacing:.3px}
 
-/* SLIDE 5 — mini-juego */
-.hps-game-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:14px}
-.hps-game-screen{
-  width:160px;height:90px;background:#000;border-radius:8px;
-  border:2px solid rgba(255,255,255,.1);
-  position:relative;overflow:hidden;margin-bottom:12px;
+/* ── HINT "tocá" ─────────────────────────── */
+.hpc-hint{
+  position:absolute;bottom:-52px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  opacity:1;transition:opacity .4s ease;
+  pointer-events:none;white-space:nowrap;
+  z-index:10;
 }
-.hps-game-mario{
-  position:absolute;bottom:10px;left:20px;
-  font-size:1.5rem;
-  animation:marioJump 1.2s ease-in-out infinite;
-}
-@keyframes marioJump{
-  0%,100%{transform:translateY(0)}
-  40%{transform:translateY(-28px)}
-}
-.hps-game-coins{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:center;gap:16px}
-.hps-coin{font-size:1rem;animation:coinSpin 1.5s ease-in-out infinite}
-.hps-coin--1{animation-delay:0s}
-.hps-coin--2{animation-delay:.2s}
-.hps-coin--3{animation-delay:.4s}
-@keyframes coinSpin{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.3) scaleX(0);opacity:.5}}
-.hps-game-score{font-size:11px;color:rgba(255,255,255,.7);font-weight:600}
-.hps-game-sub{font-size:10px;color:rgba(255,255,255,.4)}
+.hpc-hint-arrow{font-size:1.4rem;animation:hintBounce 1.2s ease-in-out infinite}
+@keyframes hintBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hpc-hint-text{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.5px}
 
-/* Dots indicadores */
-.hpc-dots{
-  position:absolute;bottom:8px;left:0;right:0;
-  display:flex;justify-content:center;gap:5px;z-index:10;
+/* ── EXPAND STATE ────────────────────────── */
+.hpc-wrap{
+  position:relative;width:280px;
+  transition:all .55s cubic-bezier(.34,1.2,.64,1);
 }
-.hpc-dot{
-  width:5px;height:5px;border-radius:50%;
-  background:rgba(255,255,255,.25);
-  transition:all .3s;cursor:pointer;
+.hpc-frame{
+  transition:all .55s cubic-bezier(.34,1.2,.64,1);
 }
-.hpc-dot--active{
-  width:16px;border-radius:99px;
-  background:var(--gold);
+
+/* Expandido */
+.hpc-wrap--expanded{
+  width:340px;
+}
+.hpc-wrap--expanded .hpc-frame{
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,.18),
+    0 0 0 3px rgba(0,0,0,.9),
+    0 60px 120px rgba(0,0,0,.9),
+    0 0 80px rgba(212,165,116,.15);
+  transform:scale(1.06) translateY(-8px);
+}
+.hpc-wrap--expanded .hpc-badge{opacity:0;pointer-events:none}
+.hpc-wrap--expanded .hpc-hint{opacity:0}
+
+/* ── CLOSE BUTTON ────────────────────────── */
+.hpc-close{
+  position:absolute;top:-44px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.6);font-size:11px;font-weight:500;
+  letter-spacing:.5px;padding:7px 18px;border-radius:99px;
+  cursor:pointer;font-family:inherit;
+  opacity:0;pointer-events:none;
+  transition:all .4s ease;
+  white-space:nowrap;
+}
+.hpc-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.hpc-wrap--expanded .hpc-close{
+  opacity:1;pointer-events:all;
 }
 
 /* ── BADGES FLOTANTES ────────────────────── */
@@ -539,108 +517,60 @@
       </div>
     </div>
 
-    <!-- DERECHA — teléfono con preview en loop -->
+    <!-- DERECHA — teléfono interactivo con la invitación real -->
     <div class="hero-phone-col">
-      <div class="hpc-wrap">
+      <div class="hpc-wrap" id="hpcWrap">
+
         <!-- Glow de fondo -->
         <div class="hpc-glow"></div>
+
+        <!-- Hint "tocá" — desaparece al expandir -->
+        <div class="hpc-hint" id="hpcHint">
+          <div class="hpc-hint-arrow">👆</div>
+          <div class="hpc-hint-text">Tocá y viví la experiencia</div>
+        </div>
+
         <!-- Teléfono -->
-        <div class="hpc-frame">
+        <div class="hpc-frame" id="hpcFrame">
           <div class="hpc-notch">
             <div class="hpc-cam"></div>
             <div class="hpc-spk"></div>
           </div>
-          <div class="hpc-screen" id="hpcScreen">
+          <div class="hpc-screen">
 
-            <!-- SLIDE 1: Portada animada -->
-            <div class="hpc-slide hpc-slide--active" id="slide1">
-              <div class="hps-bg hps-bg--mario"></div>
-              <div class="hps-content">
-                <div class="hps-tag">¡Feliz cumple Agustín! 🎉</div>
-                <div class="hps-emoji">🍄⭐🪙</div>
-                <div class="hps-title">Cumpleaños<br>de Agustín</div>
-                <div class="hps-sub">Temática Mario Bros</div>
-              </div>
-            </div>
-
-            <!-- SLIDE 2: Countdown -->
-            <div class="hpc-slide" id="slide2">
-              <div class="hps-bg hps-bg--dark"></div>
-              <div class="hps-content hps-content--center">
-                <div class="hps-label">Faltan</div>
-                <div class="hps-countdown">
-                  <div class="hps-cd"><span class="hps-cd-n" id="hpDays">03</span><span class="hps-cd-l">días</span></div>
-                  <div class="hps-cd-sep">:</div>
-                  <div class="hps-cd"><span class="hps-cd-n" id="hpHrs">14</span><span class="hps-cd-l">horas</span></div>
-                  <div class="hps-cd-sep">:</div>
-                  <div class="hps-cd"><span class="hps-cd-n" id="hpMin">22</span><span class="hps-cd-l">min</span></div>
-                </div>
-                <div class="hps-cd-label">Para el gran día 🎈</div>
-              </div>
-            </div>
-
-            <!-- SLIDE 3: Mapa + info -->
-            <div class="hpc-slide" id="slide3">
-              <div class="hps-bg hps-bg--map"></div>
-              <div class="hps-map-card">
-                <div class="hps-map-pin">📍</div>
-                <div class="hps-map-info">
-                  <div class="hps-map-title">Salón El Paraíso</div>
-                  <div class="hps-map-addr">Av. Corrientes 1234, CABA</div>
-                  <div class="hps-map-btns">
-                    <div class="hps-map-btn">Maps</div>
-                    <div class="hps-map-btn">Waze</div>
-                  </div>
+            <!-- Portada estática hasta que se toca -->
+            <div class="hpc-cover" id="hpcCover">
+              <div class="hpc-cover-bg"></div>
+              <div class="hpc-cover-content">
+                <div class="hpc-cover-emojis">🍄⭐🪙</div>
+                <div class="hpc-cover-title">Cumple de<br><strong>Agustín</strong></div>
+                <div class="hpc-cover-sub">Mario Bros · Tocá para explorar</div>
+                <div class="hpc-cover-pulse">
+                  <div class="hpc-pulse-ring"></div>
+                  <div class="hpc-pulse-dot">▶</div>
                 </div>
               </div>
             </div>
 
-            <!-- SLIDE 4: RSVP -->
-            <div class="hpc-slide" id="slide4">
-              <div class="hps-bg hps-bg--rsvp"></div>
-              <div class="hps-content hps-content--center">
-                <div class="hps-rsvp-name">Hola, <strong>Valentina</strong> 👋</div>
-                <div class="hps-rsvp-q">¿Vas a venir al cumple<br>de Agustín?</div>
-                <div class="hps-rsvp-btns">
-                  <div class="hps-rsvp-yes">✓ ¡Sí, voy!</div>
-                  <div class="hps-rsvp-no">✗ No puedo</div>
-                </div>
-                <div class="hps-rsvp-note">Link personalizado para vos</div>
-              </div>
-            </div>
+            <!-- iframe con la invitación real — se activa al tocar -->
+            <iframe
+              id="hpcIframe"
+              class="hpc-iframe"
+              src="about:blank"
+              data-src="https://bether2026.github.io/MarioBross/"
+              allow="autoplay; fullscreen; microphone; camera"
+              allowfullscreen
+              title="Invitación Mario Bros — Bether Studio"
+            ></iframe>
 
-            <!-- SLIDE 5: Mini-juego -->
-            <div class="hpc-slide" id="slide5">
-              <div class="hps-bg hps-bg--game"></div>
-              <div class="hps-content hps-content--center">
-                <div class="hps-game-title">🎮 Mini-juego</div>
-                <div class="hps-game-screen">
-                  <div class="hps-game-mario">🍄</div>
-                  <div class="hps-game-coins">
-                    <span class="hps-coin hps-coin--1">🪙</span>
-                    <span class="hps-coin hps-coin--2">🪙</span>
-                    <span class="hps-coin hps-coin--3">🪙</span>
-                  </div>
-                  <div class="hps-game-score">Score: <strong>320</strong></div>
-                </div>
-                <div class="hps-game-sub">Jugá mientras esperás</div>
-              </div>
-            </div>
-
-            <!-- Indicadores de slide -->
-            <div class="hpc-dots">
-              <div class="hpc-dot hpc-dot--active" data-s="0"></div>
-              <div class="hpc-dot" data-s="1"></div>
-              <div class="hpc-dot" data-s="2"></div>
-              <div class="hpc-dot" data-s="3"></div>
-              <div class="hpc-dot" data-s="4"></div>
-            </div>
-
-          </div><!-- /hpc-screen -->
+          </div>
           <div class="hpc-home"></div>
-        </div><!-- /hpc-frame -->
+        </div>
 
-        <!-- Badge flotante -->
+        <!-- Botón cerrar (aparece expandido) -->
+        <button class="hpc-close" id="hpcClose" aria-label="Cerrar">✕ Cerrar</button>
+
+        <!-- Badges flotantes -->
         <div class="hpc-badge hpc-badge--1">
           <span class="hpc-badge-icon">✓</span>
           <div>
@@ -935,62 +865,86 @@
 <script src="shared.js"></script>
 
 <script>
-/* ── HERO PHONE SLIDER ────────────────────────────── */
+/* ── HERO PHONE — IFRAME INTERACTIVO ─────────────────
+   Al tocar la portada:
+   1. Carga el iframe con la invitación real
+   2. Expande el teléfono con animación spring
+   3. Muestra botón "Cerrar"
+   Botón cerrar: vuelve al estado inicial
+═══════════════════════════════════════════════════ */
 (function(){
-  const slides = document.querySelectorAll('.hpc-slide');
-  const dots   = document.querySelectorAll('.hpc-dot');
-  if(!slides.length) return;
+  const wrap   = document.getElementById('hpcWrap');
+  const frame  = document.getElementById('hpcFrame');
+  const cover  = document.getElementById('hpcCover');
+  const iframe = document.getElementById('hpcIframe');
+  const closeBtn = document.getElementById('hpcClose');
+  if(!wrap || !cover || !iframe) return;
 
-  let cur = 0, timer;
-  const DURATION = 3200; // ms por slide
+  const INV_URL = 'https://bether2026.github.io/MarioBross/';
+  let loaded = false;
+  let expanded = false;
 
-  function goTo(n){
-    slides[cur].classList.remove('hpc-slide--active');
-    dots[cur].classList.remove('hpc-dot--active');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('hpc-slide--active');
-    dots[cur].classList.add('hpc-dot--active');
-    /* Animar countdown si es el slide 2 */
-    if(cur === 1) animateCountdown();
+  function expand(){
+    if(expanded) return;
+    expanded = true;
+
+    // 1. Cargar iframe si no está cargado
+    if(!loaded){
+      iframe.src = INV_URL;
+      loaded = true;
+    }
+
+    // 2. Ocultar portada
+    cover.style.opacity = '0';
+    cover.style.pointerEvents = 'none';
+
+    // 3. Mostrar iframe
+    setTimeout(()=>{
+      iframe.classList.add('hpc-iframe--active');
+    }, 200);
+
+    // 4. Expandir teléfono
+    wrap.classList.add('hpc-wrap--expanded');
   }
 
-  function next(){ goTo(cur + 1); }
+  function collapse(){
+    if(!expanded) return;
+    expanded = false;
 
-  function startAuto(){ timer = setInterval(next, DURATION); }
-  function stopAuto() { clearInterval(timer); }
+    // Contraer
+    wrap.classList.remove('hpc-wrap--expanded');
 
-  dots.forEach((d, i) => {
-    d.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); });
+    // Ocultar iframe
+    iframe.classList.remove('hpc-iframe--active');
+
+    // Mostrar portada
+    setTimeout(()=>{
+      cover.style.opacity = '1';
+      cover.style.pointerEvents = 'all';
+    }, 300);
+  }
+
+  // Tap en la portada
+  cover.addEventListener('click', expand);
+  cover.addEventListener('touchend', e => {
+    e.preventDefault();
+    expand();
+  }, {passive:false});
+
+  // Botón cerrar
+  if(closeBtn){
+    closeBtn.addEventListener('click', collapse);
+    closeBtn.addEventListener('touchend', e => {
+      e.preventDefault();
+      collapse();
+    }, {passive:false});
+  }
+
+  // ESC para cerrar en desktop
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && expanded) collapse();
   });
 
-  /* Swipe en mobile */
-  let tsx = 0;
-  const screen = document.getElementById('hpcScreen');
-  if(screen){
-    screen.addEventListener('touchstart', e => { tsx = e.touches[0].clientX; }, {passive:true});
-    screen.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - tsx;
-      if(Math.abs(dx) > 40){ stopAuto(); goTo(cur + (dx < 0 ? 1 : -1)); startAuto(); }
-    }, {passive:true});
-  }
-
-  /* Countdown animado */
-  function animateCountdown(){
-    const days = document.getElementById('hpDays');
-    const hrs  = document.getElementById('hpHrs');
-    const min  = document.getElementById('hpMin');
-    if(!days) return;
-    let d=3, h=14, m=22;
-    const cd = setInterval(()=>{
-      m--; if(m<0){m=59;h--;} if(h<0){h=23;d--;}
-      if(days) days.textContent = String(d).padStart(2,'0');
-      if(hrs)  hrs.textContent  = String(h).padStart(2,'0');
-      if(min)  min.textContent  = String(m).padStart(2,'0');
-    }, 80);
-    setTimeout(()=>clearInterval(cd), 2800);
-  }
-
-  startAuto();
 })();
 </script>
 
