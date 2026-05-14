@@ -353,41 +353,69 @@
 
 /* ── EXPAND STATE ────────────────────────── */
 .hpc-wrap{
-  position:relative;width:280px;
-  transition:all .55s cubic-bezier(.34,1.2,.64,1);
+  position:relative;width:260px;
+  transition:all .5s cubic-bezier(.34,1.1,.64,1);
 }
 .hpc-frame{
-  transition:all .55s cubic-bezier(.34,1.2,.64,1);
+  width:260px;
+  transition:all .5s cubic-bezier(.34,1.1,.64,1);
 }
 
-/* Expandido */
+/* ── OVERLAY oscuro al expandir ─────────── */
+.hpc-overlay{
+  position:fixed;inset:0;z-index:9010;
+  background:rgba(0,0,0,.88);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+  backdrop-filter:blur(8px);
+}
+.hpc-overlay--active{
+  opacity:1;pointer-events:all;
+}
+
+/* ── WRAPPER expandido = fixed centrado ─── */
 .hpc-wrap--expanded{
-  width:340px;
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) !important;
+  z-index:9020;
+  width:auto;
+  /* altura calculada en JS según pantalla */
 }
 .hpc-wrap--expanded .hpc-frame{
+  /* El frame adopta la altura de la pantalla */
   box-shadow:
-    0 0 0 1.5px rgba(255,255,255,.18),
-    0 0 0 3px rgba(0,0,0,.9),
-    0 60px 120px rgba(0,0,0,.9),
-    0 0 80px rgba(212,165,116,.15);
-  transform:scale(1.06) translateY(-8px);
+    0 0 0 2px rgba(255,255,255,.18),
+    0 0 0 4px rgba(0,0,0,.95),
+    0 40px 100px rgba(0,0,0,.9),
+    0 0 60px rgba(212,165,116,.2);
+  animation:none;
+  transform:none;
 }
-.hpc-wrap--expanded .hpc-badge{opacity:0;pointer-events:none}
+.hpc-wrap--expanded .hpc-glow{display:none}
+.hpc-wrap--expanded .hpc-badge{opacity:0;pointer-events:none;transition:opacity .2s}
 .hpc-wrap--expanded .hpc-hint{opacity:0}
 
-/* ── CLOSE BUTTON ────────────────────────── */
+/* ── CLOSE BUTTON ─────────────────────── */
 .hpc-close{
-  position:absolute;top:-44px;left:50%;transform:translateX(-50%);
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
-  color:rgba(255,255,255,.6);font-size:11px;font-weight:500;
-  letter-spacing:.5px;padding:7px 18px;border-radius:99px;
+  position:fixed;
+  top:20px;right:20px;
+  z-index:9030;
+  background:rgba(20,20,26,.9);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;font-size:12px;font-weight:600;
+  letter-spacing:.5px;padding:9px 20px;border-radius:99px;
   cursor:pointer;font-family:inherit;
   opacity:0;pointer-events:none;
-  transition:all .4s ease;
-  white-space:nowrap;
+  transition:all .35s ease;
+  display:flex;align-items:center;gap:8px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
 }
-.hpc-close:hover{background:rgba(255,255,255,.14);color:#fff}
-.hpc-wrap--expanded .hpc-close{
+.hpc-close::before{content:"✕";font-size:10px;opacity:.7}
+.hpc-close:hover{background:rgba(40,40,50,.95);border-color:rgba(255,255,255,.3)}
+.hpc-wrap--expanded ~ .hpc-close,
+.hpc-close--visible{
   opacity:1;pointer-events:all;
 }
 
@@ -567,8 +595,7 @@
           <div class="hpc-home"></div>
         </div>
 
-        <!-- Botón cerrar (aparece expandido) -->
-        <button class="hpc-close" id="hpcClose" aria-label="Cerrar">✕ Cerrar</button>
+
 
         <!-- Badges flotantes -->
         <div class="hpc-badge hpc-badge--1">
@@ -590,6 +617,10 @@
     </div><!-- /hero-phone-col -->
 
   </div><!-- /hero-inner -->
+  <!-- Overlay + close (fuera del wrap para que el fixed funcione bien) -->
+  <div class="hpc-overlay" id="hpcOverlay"></div>
+  <button class="hpc-close" id="hpcClose" aria-label="Cerrar">Cerrar</button>
+
   <div class="scroll-hint"><span>Explorá</span><div class="scroll-arrow"></div></div>
 </section>
 
@@ -873,77 +904,105 @@
    Botón cerrar: vuelve al estado inicial
 ═══════════════════════════════════════════════════ */
 (function(){
-  const wrap   = document.getElementById('hpcWrap');
-  const frame  = document.getElementById('hpcFrame');
-  const cover  = document.getElementById('hpcCover');
-  const iframe = document.getElementById('hpcIframe');
-  const closeBtn = document.getElementById('hpcClose');
+  const wrap    = document.getElementById('hpcWrap');
+  const frame   = document.getElementById('hpcFrame');
+  const cover   = document.getElementById('hpcCover');
+  const iframe  = document.getElementById('hpcIframe');
+  const closeBtn= document.getElementById('hpcClose');
+  const overlay = document.getElementById('hpcOverlay');
   if(!wrap || !cover || !iframe) return;
 
   const INV_URL = 'https://bether2026.github.io/MarioBross/';
-  let loaded = false;
-  let expanded = false;
+  let loaded = false, expanded = false;
+
+  /* Calcular dimensiones del teléfono expandido
+     Proporción real de un iPhone (9:19.5)
+     Ocupa el 88% del alto de la pantalla */
+  function phoneSize(){
+    const maxH = window.innerHeight * .88;
+    const maxW = window.innerWidth  * .94;
+    /* aspect ratio del frame: ancho/alto ≈ 0.48 (incluyendo notch+home) */
+    const ratio = 0.465;
+    let h = maxH;
+    let w = Math.round(h * ratio);
+    if(w > maxW){ w = maxW; h = Math.round(w / ratio); }
+    return { w, h };
+  }
 
   function expand(){
     if(expanded) return;
     expanded = true;
 
-    // 1. Cargar iframe si no está cargado
-    if(!loaded){
-      iframe.src = INV_URL;
-      loaded = true;
-    }
+    /* 1. Cargar iframe */
+    if(!loaded){ iframe.src = INV_URL; loaded = true; }
 
-    // 2. Ocultar portada
+    /* 2. Ocultar portada */
     cover.style.opacity = '0';
     cover.style.pointerEvents = 'none';
 
-    // 3. Mostrar iframe
-    setTimeout(()=>{
-      iframe.classList.add('hpc-iframe--active');
-    }, 200);
+    /* 3. Calcular y aplicar tamaño */
+    const { w, h } = phoneSize();
+    frame.style.width  = w + 'px';
+    /* La pantalla del frame ocupa ~82% del alto total */
+    frame.style.borderRadius = Math.round(w * 0.17) + 'px';
 
-    // 4. Expandir teléfono
+    /* 4. Expandir */
     wrap.classList.add('hpc-wrap--expanded');
+    overlay.classList.add('hpc-overlay--active');
+    closeBtn.classList.add('hpc-close--visible');
+    document.body.style.overflow = 'hidden';
+
+    /* 5. Mostrar iframe con pequeño delay */
+    setTimeout(()=> iframe.classList.add('hpc-iframe--active'), 250);
   }
 
   function collapse(){
     if(!expanded) return;
     expanded = false;
 
-    // Contraer
-    wrap.classList.remove('hpc-wrap--expanded');
-
-    // Ocultar iframe
+    /* Ocultar iframe */
     iframe.classList.remove('hpc-iframe--active');
 
-    // Mostrar portada
+    /* Contraer */
+    wrap.classList.remove('hpc-wrap--expanded');
+    overlay.classList.remove('hpc-overlay--active');
+    closeBtn.classList.remove('hpc-close--visible');
+    document.body.style.overflow = '';
+
+    /* Restaurar tamaño original del frame */
+    frame.style.width = '';
+    frame.style.borderRadius = '';
+
+    /* Mostrar portada */
     setTimeout(()=>{
       cover.style.opacity = '1';
       cover.style.pointerEvents = 'all';
-    }, 300);
+    }, 320);
   }
 
-  // Tap en la portada
+  /* Eventos — portada */
   cover.addEventListener('click', expand);
-  cover.addEventListener('touchend', e => {
-    e.preventDefault();
-    expand();
-  }, {passive:false});
+  cover.addEventListener('touchend', e=>{ e.preventDefault(); expand(); }, {passive:false});
 
-  // Botón cerrar
+  /* Eventos — cerrar */
   if(closeBtn){
     closeBtn.addEventListener('click', collapse);
-    closeBtn.addEventListener('touchend', e => {
-      e.preventDefault();
-      collapse();
-    }, {passive:false});
+    closeBtn.addEventListener('touchend', e=>{ e.preventDefault(); collapse(); }, {passive:false});
+  }
+  if(overlay){
+    overlay.addEventListener('click', collapse);
   }
 
-  // ESC para cerrar en desktop
-  document.addEventListener('keydown', e => {
-    if(e.key === 'Escape' && expanded) collapse();
-  });
+  /* ESC */
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && expanded) collapse(); });
+
+  /* Resize: si está expandido, recalcular */
+  window.addEventListener('resize', ()=>{
+    if(!expanded) return;
+    const { w } = phoneSize();
+    frame.style.width = w + 'px';
+    frame.style.borderRadius = Math.round(w * 0.17) + 'px';
+  }, {passive:true});
 
 })();
 </script>
