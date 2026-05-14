@@ -44,7 +44,7 @@ if(!REDUCED){
       this.y=Math.random()*innerHeight;
       this.r=Math.random()*1.1+.3;
       this.col=GOLD[Math.floor(Math.random()*4)];
-      this.maxA=Math.random()*.22+.05;
+      this.maxA=(IS_TOUCH ? Math.random()*.38+.12 : Math.random()*.22+.05);
       this.phase=Math.random()*Math.PI*2;
       this.spd=Math.random()*.008+.003;
       this.life=init?Math.floor(Math.random()*600):0;
@@ -77,11 +77,11 @@ if(!REDUCED){
     reset(init){
       this.x=Math.random()*innerWidth;
       this.y=Math.random()*innerHeight;
-      this.s=Math.random()*11+5;
+      this.s=(IS_TOUCH ? Math.random()*16+8 : Math.random()*11+5);
       this.col=Math.random()<.45 ? COL[Math.floor(Math.random()*5)] : GOLD[Math.floor(Math.random()*4)];
       this.life=init?Math.floor(Math.random()*900):0;
       this.lifeMax=Math.random()*260+160;
-      this.maxA=Math.random()*.20+.07;
+      this.maxA=(IS_TOUCH ? Math.random()*.32+.14 : Math.random()*.20+.07);
       this.rot=Math.random()*Math.PI;
       this.alpha=0;
     }
@@ -111,8 +111,11 @@ if(!REDUCED){
     }
   }
 
-  for(let i=0;i<32;i++) SPARKS.push(new Spark());
-  for(let i=0;i<10;i++) DIAS.push(new Diamond());
+  // Más sparkles en mobile para compensar la falta de orbs
+  const SPARK_N = IS_TOUCH ? 48 : 32;
+  const DIA_N   = IS_TOUCH ? 16 : 10;
+  for(let i=0;i<SPARK_N;i++) SPARKS.push(new Spark());
+  for(let i=0;i<DIA_N;i++)   DIAS.push(new Diamond());
 
   /* Mouse trail */
   let mx=-999,my=-999,pmx=-999,pmy=-999,moving=false,mt;
