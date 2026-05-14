@@ -362,76 +362,16 @@
 }
 
 /* ── OVERLAY oscuro al expandir ─────────── */
-.hpc-overlay{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  z-index:9500;
-  background:rgba(0,0,0,.92);
-  opacity:0;pointer-events:none;
-  transition:opacity .4s ease;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.hpc-overlay--active{
-  opacity:1;pointer-events:all;
-}
+
 
 /* ── WRAPPER expandido = fixed centrado ─── */
-.hpc-wrap--expanded{
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  width:100vw !important;
-  height:100vh !important;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9510;
-  pointer-events:none;
-}
-.hpc-wrap--expanded .hpc-frame{
-  pointer-events:all;
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,.18),
-    0 0 0 4px rgba(0,0,0,.95),
-    0 40px 100px rgba(0,0,0,.9),
-    0 0 60px rgba(212,165,116,.2);
-  animation:none !important;
-  transform:none !important;
-  position:relative;
-}
+
 .hpc-wrap--expanded .hpc-glow{display:none}
 .hpc-wrap--expanded .hpc-badge{opacity:0;pointer-events:none;transition:opacity .2s}
 .hpc-wrap--expanded .hpc-hint{opacity:0}
 
 /* ── CLOSE BUTTON ─────────────────────── */
-.hpc-close{
-  position:fixed;
-  top:16px;right:16px;
-  z-index:9530;
-  background:rgba(10,10,14,.88);
-  border:1px solid rgba(255,255,255,.2);
-  color:#fff;font-size:12px;font-weight:600;
-  letter-spacing:.3px;padding:10px 20px 10px 14px;
-  border-radius:99px;
-  cursor:pointer;font-family:inherit;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s ease;
-  display:flex;align-items:center;gap:8px;
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  box-shadow:0 4px 24px rgba(0,0,0,.5);
-}
-.hpc-close::before{
-  content:"✕";
-  width:20px;height:20px;
-  background:rgba(255,255,255,.1);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;flex-shrink:0;
-}
-.hpc-close:hover{background:rgba(30,30,40,.95);border-color:rgba(255,255,255,.35)}
-.hpc-close--visible{
-  opacity:1;pointer-events:all;
-}
+
 
 /* ── BADGES FLOTANTES ────────────────────── */
 .hpc-badge{
@@ -561,80 +501,45 @@
 
     <!-- DERECHA — teléfono interactivo con la invitación real -->
     <div class="hero-phone-col">
-      <div class="hpc-wrap" id="hpcWrap">
-
-        <!-- Glow de fondo -->
+      <div class="hpc-wrap">
         <div class="hpc-glow"></div>
-
-        <!-- Hint "tocá" — desaparece al expandir -->
-        <div class="hpc-hint" id="hpcHint">
-          <div class="hpc-hint-arrow">👆</div>
-          <div class="hpc-hint-text">Tocá y viví la experiencia</div>
-        </div>
-
-        <!-- Teléfono -->
-        <div class="hpc-frame" id="hpcFrame">
-          <div class="hpc-notch">
-            <div class="hpc-cam"></div>
-            <div class="hpc-spk"></div>
-          </div>
-          <div class="hpc-screen">
-
-            <!-- Portada estática hasta que se toca -->
-            <div class="hpc-cover" id="hpcCover">
+        <!-- Teléfono estático — al tocar abre el modal -->
+        <div class="hpc-frame">
+          <div class="hpc-notch"><div class="hpc-cam"></div><div class="hpc-spk"></div></div>
+          <div class="hpc-screen" id="hpcTrigger">
+            <div class="hpc-cover">
               <div class="hpc-cover-bg"></div>
               <div class="hpc-cover-content">
                 <div class="hpc-cover-emojis">🍄⭐🪙</div>
                 <div class="hpc-cover-title">Cumple de<br><strong>Agustín</strong></div>
-                <div class="hpc-cover-sub">Mario Bros · Tocá para explorar</div>
+                <div class="hpc-cover-sub">Tocá para vivir la experiencia</div>
                 <div class="hpc-cover-pulse">
                   <div class="hpc-pulse-ring"></div>
                   <div class="hpc-pulse-dot">▶</div>
                 </div>
               </div>
             </div>
-
-            <!-- iframe con la invitación real — se activa al tocar -->
-            <iframe
-              id="hpcIframe"
-              class="hpc-iframe"
-              src="about:blank"
-              data-src="https://bether2026.github.io/MarioBross/"
-              allow="autoplay; fullscreen; microphone; camera"
-              allowfullscreen
-              title="Invitación Mario Bros — Bether Studio"
-            ></iframe>
-
           </div>
           <div class="hpc-home"></div>
         </div>
-
-
-
-        <!-- Badges flotantes -->
+        <!-- Hint -->
+        <div class="hpc-hint">
+          <div class="hpc-hint-arrow">👆</div>
+          <div class="hpc-hint-text">Tocá y viví la experiencia</div>
+        </div>
+        <!-- Badges -->
         <div class="hpc-badge hpc-badge--1">
           <span class="hpc-badge-icon">✓</span>
-          <div>
-            <div class="hpc-badge-title">Valentina confirmó</div>
-            <div class="hpc-badge-sub">hace 2 minutos</div>
-          </div>
+          <div><div class="hpc-badge-title">Valentina confirmó</div><div class="hpc-badge-sub">hace 2 minutos</div></div>
         </div>
         <div class="hpc-badge hpc-badge--2">
           <span class="hpc-badge-icon">🎮</span>
-          <div>
-            <div class="hpc-badge-title">Score: 1.240 pts</div>
-            <div class="hpc-badge-sub">Mini-juego</div>
-          </div>
+          <div><div class="hpc-badge-title">Score: 1.240 pts</div><div class="hpc-badge-sub">Mini-juego</div></div>
         </div>
-
       </div>
     </div><!-- /hero-phone-col -->
 
   </div><!-- /hero-inner -->
-  <!-- Overlay + close (fuera del wrap para que el fixed funcione bien) -->
-  <div class="hpc-overlay" id="hpcOverlay"></div>
-  <button class="hpc-close" id="hpcClose" aria-label="Cerrar">Cerrar</button>
-
   <div class="scroll-hint"><span>Explorá</span><div class="scroll-arrow"></div></div>
 </section>
 
@@ -909,114 +814,190 @@
 
 <script src="shared.js"></script>
 
+
+
+
+<!-- ══════════════════════════════════════════════════
+     MODAL INVITACIÓN — al nivel del body, z-index máximo
+     Tapa ABSOLUTAMENTE todo: nav, canvas, hero, marquee
+══════════════════════════════════════════════════ -->
+<div id="invModal" style="
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  z-index:999999;
+  background:rgba(0,0,0,.94);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:16px;
+">
+  <!-- Botón cerrar — siempre visible arriba -->
+  <button id="invClose" style="
+    position:absolute;top:16px;right:16px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.22);
+    color:#fff;font-size:13px;font-weight:600;
+    padding:10px 22px;border-radius:99px;
+    cursor:pointer;font-family:inherit;
+    letter-spacing:.3px;
+    backdrop-filter:blur(10px);
+    z-index:10;
+  ">✕ Cerrar</button>
+
+  <!-- Marco del teléfono -->
+  <div id="invPhone" style="
+    background:linear-gradient(160deg,#1e1e24,#13131a);
+    border-radius:44px;
+    padding:12px;
+    box-shadow:
+      0 0 0 1.5px rgba(255,255,255,.14),
+      0 0 0 3.5px rgba(0,0,0,.95),
+      0 40px 100px rgba(0,0,0,.9),
+      0 0 60px rgba(212,165,116,.15);
+    display:flex;flex-direction:column;
+    position:relative;
+  ">
+    <!-- Notch -->
+    <div style="
+      width:110px;height:24px;
+      background:#09090b;border-radius:0 0 16px 16px;
+      margin:0 auto 8px;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+    ">
+      <div style="width:9px;height:9px;border-radius:50%;background:#1a1a20"></div>
+      <div style="width:42px;height:4px;border-radius:99px;background:#1a1a20"></div>
+    </div>
+    <!-- Screen con iframe -->
+    <div id="invScreen" style="
+      background:#09090b;
+      border-radius:32px;
+      overflow:hidden;
+      position:relative;
+      flex:1;
+    ">
+      <iframe
+        id="invIframe"
+        src="about:blank"
+        style="
+          width:100%;height:100%;
+          border:none;display:block;
+        "
+        allow="autoplay; fullscreen; camera; microphone"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <!-- Home bar -->
+    <div style="
+      width:80px;height:4px;
+      background:rgba(255,255,255,.2);
+      border-radius:99px;
+      margin:10px auto 2px;
+    "></div>
+  </div>
+</div>
+
 <script>
-/* ── HERO PHONE — IFRAME INTERACTIVO ─────────────────
-   Al tocar la portada:
-   1. Carga el iframe con la invitación real
-   2. Expande el teléfono con animación spring
-   3. Muestra botón "Cerrar"
-   Botón cerrar: vuelve al estado inicial
-═══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   MODAL INVITACIÓN — completamente independiente
+   z-index:999999 — tapa absolutamente todo
+══════════════════════════════════════════════════ */
 (function(){
-  const wrap    = document.getElementById('hpcWrap');
-  const frame   = document.getElementById('hpcFrame');
-  const cover   = document.getElementById('hpcCover');
-  const iframe  = document.getElementById('hpcIframe');
-  const closeBtn= document.getElementById('hpcClose');
-  const overlay = document.getElementById('hpcOverlay');
-  if(!wrap || !cover || !iframe) return;
+  const trigger  = document.getElementById('hpcTrigger');
+  const modal    = document.getElementById('invModal');
+  const closeBtn = document.getElementById('invClose');
+  const iframe   = document.getElementById('invIframe');
+  const phone    = document.getElementById('invPhone');
+  const screen   = document.getElementById('invScreen');
+  if(!trigger || !modal) return;
 
   const INV_URL = 'https://bether2026.github.io/MarioBross/';
-  let loaded = false, expanded = false;
+  let loaded = false;
 
-  /* Calcular tamaño del frame expandido:
-     ocupa el 88% del alto, mantiene proporción iPhone */
-  function phoneSize(){
-    const maxH = window.innerHeight * .88;
-    const maxW = window.innerWidth  * .90;
-    const ratio = 0.465; // ancho/alto del frame
-    let h = maxH;
-    let w = Math.round(h * ratio);
-    if(w > maxW){ w = maxW; h = Math.round(w / ratio); }
-    return { w, h };
+  /* Calcular tamaño del teléfono en el modal */
+  function calcSize(){
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    /* Queremos que el TELÉFONO (frame+padding) ocupe:
+       - Máximo 88vh de alto
+       - Máximo 92vw de ancho
+       - Proporción: el screen es 9:19.5
+       - El frame tiene padding de 12px por lado + notch 32px + home 22px
+       => overhead vertical: 66px, horizontal: 24px
+    */
+    const padV = 66, padH = 24;
+    const maxScreenH = vh * .88 - padV;
+    const maxScreenW = vw * .92 - padH;
+    // proporción screen 9:19.5
+    let sw = maxScreenH * (9/19.5);
+    if(sw > maxScreenW){ sw = maxScreenW; }
+    const sh = sw * (19.5/9);
+    const frameW = sw + padH;
+    const frameH = sh + padV;
+    const br = Math.round(frameW * .16);
+    return { frameW, frameH, sw, sh, br };
   }
 
-  function expand(){
-    if(expanded) return;
-    expanded = true;
+  function openModal(){
+    const { frameW, frameH, sw, sh, br } = calcSize();
 
-    /* 1. Cargar iframe */
-    if(!loaded){ iframe.src = INV_URL; loaded = true; }
+    /* Aplicar tamaño al phone frame */
+    phone.style.width        = frameW + 'px';
+    phone.style.borderRadius = br + 'px';
+    screen.style.width       = sw + 'px';
+    screen.style.height      = sh + 'px';
+    screen.style.borderRadius= Math.round(br * .75) + 'px';
 
-    /* 2. Ocultar portada */
-    cover.style.opacity = '0';
-    cover.style.pointerEvents = 'none';
-
-    /* 3. Aplicar tamaño al frame */
-    const { w, h } = phoneSize();
-    frame.style.width        = w + 'px';
-    frame.style.borderRadius = Math.round(w * 0.17) + 'px';
-
-    /* 4. Expandir — el wrap pasa a ser fixed fullscreen flex centrado */
-    wrap.classList.add('hpc-wrap--expanded');
-    overlay.classList.add('hpc-overlay--active');
-    closeBtn.classList.add('hpc-close--visible');
+    /* Mostrar modal */
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 
-    /* 5. Mostrar iframe */
-    setTimeout(()=> iframe.classList.add('hpc-iframe--active'), 260);
+    /* Cargar iframe */
+    if(!loaded){
+      iframe.src = INV_URL;
+      loaded = true;
+    }
   }
 
-  function collapse(){
-    if(!expanded) return;
-    expanded = false;
-
-    /* Ocultar iframe */
-    iframe.classList.remove('hpc-iframe--active');
-
-    /* Cerrar */
-    wrap.classList.remove('hpc-wrap--expanded');
-    overlay.classList.remove('hpc-overlay--active');
-    closeBtn.classList.remove('hpc-close--visible');
+  function closeModal(){
+    modal.style.display = 'none';
     document.body.style.overflow = '';
-
-    /* Restaurar frame */
-    frame.style.width        = '';
-    frame.style.borderRadius = '';
-
-    /* Mostrar portada */
-    setTimeout(()=>{
-      cover.style.opacity      = '1';
-      cover.style.pointerEvents= 'all';
-    }, 320);
   }
 
-  /* Eventos — portada */
-  cover.addEventListener('click', expand);
-  cover.addEventListener('touchend', e=>{ e.preventDefault(); expand(); }, {passive:false});
+  /* Trigger: tap en la portada del teléfono chico */
+  trigger.addEventListener('click', openModal);
+  trigger.addEventListener('touchend', e => {
+    e.preventDefault(); openModal();
+  }, {passive:false});
 
-  /* Eventos — cerrar */
-  if(closeBtn){
-    closeBtn.addEventListener('click', collapse);
-    closeBtn.addEventListener('touchend', e=>{ e.preventDefault(); collapse(); }, {passive:false});
-  }
-  if(overlay){
-    overlay.addEventListener('click', collapse);
-  }
+  /* Cerrar */
+  closeBtn.addEventListener('click', closeModal);
+  closeBtn.addEventListener('touchend', e => {
+    e.preventDefault(); closeModal();
+  }, {passive:false});
+
+  /* Click en el overlay (fuera del phone) */
+  modal.addEventListener('click', e => {
+    if(e.target === modal) closeModal();
+  });
 
   /* ESC */
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && expanded) collapse(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeModal();
+  });
 
-  /* Resize: si está expandido, recalcular */
-  window.addEventListener('resize', ()=>{
-    if(!expanded) return;
-    const { w } = phoneSize();
-    frame.style.width = w + 'px';
-    frame.style.borderRadius = Math.round(w * 0.17) + 'px';
+  /* Resize */
+  window.addEventListener('resize', () => {
+    if(modal.style.display === 'none') return;
+    const { frameW, frameH, sw, sh, br } = calcSize();
+    phone.style.width        = frameW + 'px';
+    phone.style.borderRadius = br + 'px';
+    screen.style.width       = sw + 'px';
+    screen.style.height      = sh + 'px';
+    screen.style.borderRadius= Math.round(br * .75) + 'px';
   }, {passive:true});
 
 })();
 </script>
-
 </body>
 </html>
