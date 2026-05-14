@@ -363,11 +363,13 @@
 
 /* ── OVERLAY oscuro al expandir ─────────── */
 .hpc-overlay{
-  position:fixed;inset:0;z-index:9010;
-  background:rgba(0,0,0,.88);
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  z-index:9500;
+  background:rgba(0,0,0,.92);
   opacity:0;pointer-events:none;
   transition:opacity .4s ease;
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
 .hpc-overlay--active{
   opacity:1;pointer-events:all;
@@ -376,21 +378,25 @@
 /* ── WRAPPER expandido = fixed centrado ─── */
 .hpc-wrap--expanded{
   position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%) !important;
-  z-index:9020;
-  width:auto;
-  /* altura calculada en JS según pantalla */
+  top:0;left:0;right:0;bottom:0;
+  width:100vw !important;
+  height:100vh !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9510;
+  pointer-events:none;
 }
 .hpc-wrap--expanded .hpc-frame{
-  /* El frame adopta la altura de la pantalla */
+  pointer-events:all;
   box-shadow:
     0 0 0 2px rgba(255,255,255,.18),
     0 0 0 4px rgba(0,0,0,.95),
     0 40px 100px rgba(0,0,0,.9),
     0 0 60px rgba(212,165,116,.2);
-  animation:none;
-  transform:none;
+  animation:none !important;
+  transform:none !important;
+  position:relative;
 }
 .hpc-wrap--expanded .hpc-glow{display:none}
 .hpc-wrap--expanded .hpc-badge{opacity:0;pointer-events:none;transition:opacity .2s}
@@ -399,22 +405,30 @@
 /* ── CLOSE BUTTON ─────────────────────── */
 .hpc-close{
   position:fixed;
-  top:20px;right:20px;
-  z-index:9030;
-  background:rgba(20,20,26,.9);
-  border:1px solid rgba(255,255,255,.18);
+  top:16px;right:16px;
+  z-index:9530;
+  background:rgba(10,10,14,.88);
+  border:1px solid rgba(255,255,255,.2);
   color:#fff;font-size:12px;font-weight:600;
-  letter-spacing:.5px;padding:9px 20px;border-radius:99px;
+  letter-spacing:.3px;padding:10px 20px 10px 14px;
+  border-radius:99px;
   cursor:pointer;font-family:inherit;
   opacity:0;pointer-events:none;
-  transition:all .35s ease;
+  transition:opacity .3s ease;
   display:flex;align-items:center;gap:8px;
-  backdrop-filter:blur(12px);
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 24px rgba(0,0,0,.5);
 }
-.hpc-close::before{content:"✕";font-size:10px;opacity:.7}
-.hpc-close:hover{background:rgba(40,40,50,.95);border-color:rgba(255,255,255,.3)}
-.hpc-wrap--expanded ~ .hpc-close,
+.hpc-close::before{
+  content:"✕";
+  width:20px;height:20px;
+  background:rgba(255,255,255,.1);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;flex-shrink:0;
+}
+.hpc-close:hover{background:rgba(30,30,40,.95);border-color:rgba(255,255,255,.35)}
 .hpc-close--visible{
   opacity:1;pointer-events:all;
 }
@@ -915,14 +929,12 @@
   const INV_URL = 'https://bether2026.github.io/MarioBross/';
   let loaded = false, expanded = false;
 
-  /* Calcular dimensiones del teléfono expandido
-     Proporción real de un iPhone (9:19.5)
-     Ocupa el 88% del alto de la pantalla */
+  /* Calcular tamaño del frame expandido:
+     ocupa el 88% del alto, mantiene proporción iPhone */
   function phoneSize(){
     const maxH = window.innerHeight * .88;
-    const maxW = window.innerWidth  * .94;
-    /* aspect ratio del frame: ancho/alto ≈ 0.48 (incluyendo notch+home) */
-    const ratio = 0.465;
+    const maxW = window.innerWidth  * .90;
+    const ratio = 0.465; // ancho/alto del frame
     let h = maxH;
     let w = Math.round(h * ratio);
     if(w > maxW){ w = maxW; h = Math.round(w / ratio); }
@@ -940,20 +952,19 @@
     cover.style.opacity = '0';
     cover.style.pointerEvents = 'none';
 
-    /* 3. Calcular y aplicar tamaño */
+    /* 3. Aplicar tamaño al frame */
     const { w, h } = phoneSize();
-    frame.style.width  = w + 'px';
-    /* La pantalla del frame ocupa ~82% del alto total */
+    frame.style.width        = w + 'px';
     frame.style.borderRadius = Math.round(w * 0.17) + 'px';
 
-    /* 4. Expandir */
+    /* 4. Expandir — el wrap pasa a ser fixed fullscreen flex centrado */
     wrap.classList.add('hpc-wrap--expanded');
     overlay.classList.add('hpc-overlay--active');
     closeBtn.classList.add('hpc-close--visible');
     document.body.style.overflow = 'hidden';
 
-    /* 5. Mostrar iframe con pequeño delay */
-    setTimeout(()=> iframe.classList.add('hpc-iframe--active'), 250);
+    /* 5. Mostrar iframe */
+    setTimeout(()=> iframe.classList.add('hpc-iframe--active'), 260);
   }
 
   function collapse(){
@@ -963,20 +974,20 @@
     /* Ocultar iframe */
     iframe.classList.remove('hpc-iframe--active');
 
-    /* Contraer */
+    /* Cerrar */
     wrap.classList.remove('hpc-wrap--expanded');
     overlay.classList.remove('hpc-overlay--active');
     closeBtn.classList.remove('hpc-close--visible');
     document.body.style.overflow = '';
 
-    /* Restaurar tamaño original del frame */
-    frame.style.width = '';
+    /* Restaurar frame */
+    frame.style.width        = '';
     frame.style.borderRadius = '';
 
     /* Mostrar portada */
     setTimeout(()=>{
-      cover.style.opacity = '1';
-      cover.style.pointerEvents = 'all';
+      cover.style.opacity      = '1';
+      cover.style.pointerEvents= 'all';
     }, 320);
   }
 
